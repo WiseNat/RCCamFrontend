@@ -1,8 +1,8 @@
 package com.example.rccamfrontend
 
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_connect.*
 
@@ -19,8 +19,8 @@ class ConnectActivity : AppCompatActivity() {
 
 
         btnConnect.setOnClickListener{
-            Toast.makeText(this, textfieldPort.text, Toast.LENGTH_SHORT).show()
-            Toast.makeText(this, textfieldIP.text, Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
     }
 }

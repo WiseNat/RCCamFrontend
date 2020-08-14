@@ -3,4 +3,5 @@
     <string name="port_number">Port Number</string>
     <string name="ip_address">IP Address</string>
     <string name="connect">CONNECT</string>
+    <string name="temp">Temp</string>
 </resources>
