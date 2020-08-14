@@ -20,10 +20,10 @@
         android:id="@+id/btnTakePhoto"
         android:layout_width="133dp"
         android:layout_height="84dp"
-        android:layout_marginTop="36dp"
         android:text="@string/temp"
         android:textSize="50sp"
+        android:fontFamily="@font/agencyr"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/webView" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

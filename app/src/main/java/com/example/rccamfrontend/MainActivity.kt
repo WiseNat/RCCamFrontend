@@ -9,9 +9,5 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val typeface = Typeface.createFromAsset(assets, "fonts/AGENCYR.TTF")
-
-        btnTakePhoto.typeface = typeface
     }
 }

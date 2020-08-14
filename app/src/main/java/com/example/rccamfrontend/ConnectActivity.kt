@@ -11,13 +11,6 @@ class ConnectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_connect)
 
-        val typeface = Typeface.createFromAsset(assets, "fonts/AGENCYR.TTF")
-
-        textfieldIP.typeface = typeface
-        textfieldPort.typeface = typeface
-        btnConnect.typeface = typeface
-
-
         btnConnect.setOnClickListener{
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
