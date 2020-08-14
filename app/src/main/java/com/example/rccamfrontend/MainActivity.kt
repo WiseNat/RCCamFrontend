@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val typeface = Typeface.createFromAsset(assets, "fonts/agencyb.ttf")
+        val typeface = Typeface.createFromAsset(assets, "fonts/AGENCYR.TTF")
 
         textfieldIP.typeface = typeface
         textfieldPort.typeface = typeface
