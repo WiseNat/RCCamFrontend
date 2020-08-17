@@ -2,8 +2,6 @@ package com.example.rccamfrontend
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputFilter
-import android.view.Gravity
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_connect.*
@@ -38,7 +36,6 @@ class ConnectActivity : AppCompatActivity() {
             } else if(portInput > 65536){ // Checking if port number is valid
                 generateToast("Invalid Port")
                 nextActivity = false
-
             }
 
             if (nextActivity){
@@ -47,7 +44,6 @@ class ConnectActivity : AppCompatActivity() {
 
                 intent.putExtra("ip", textfieldIP.text.toString())
                 intent.putExtra("port", textfieldPort.text.toString())
-
                 startActivity(intent)
             }
         }
