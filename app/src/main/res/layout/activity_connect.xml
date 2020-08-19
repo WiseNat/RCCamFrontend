@@ -16,6 +16,7 @@
         android:importantForAutofill="no"
         android:inputType="number"
         android:digits="1234567890"
+        android:imeOptions="actionGo"
         android:maxLength="5"
         android:textSize="40sp"
         android:fontFamily="@font/agencyr"
@@ -34,6 +35,7 @@
         android:importantForAutofill="no"
         android:inputType="phone"
         android:digits="1234567890."
+        android:imeOptions="actionNext"
         android:maxLength="15"
         android:textSize="40sp"
         android:fontFamily="@font/agencyr"
@@ -54,6 +56,17 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textfieldPort" />
+
+    <WebView
+        android:id="@+id/hiddenWebview"
+        android:layout_width="166dp"
+        android:layout_height="77dp"
+        android:layout_marginTop="120dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnConnect" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

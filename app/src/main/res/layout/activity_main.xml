@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <WebView
-        android:id="@+id/webView"
+        android:id="@+id/webview"
         android:layout_width="447dp"
         android:layout_height="908dp"
         app:layout_constraintBottom_toBottomOf="parent"
