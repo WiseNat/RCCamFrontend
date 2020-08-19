@@ -57,5 +57,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textfieldPort" />
 
+    <WebView
+        android:id="@+id/hiddenWebview"
+        android:layout_width="166dp"
+        android:layout_height="77dp"
+        android:layout_marginTop="120dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnConnect" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
