@@ -7,6 +7,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity() {
@@ -25,7 +26,10 @@ class MainActivity : AppCompatActivity() {
             webview.loadUrl("http://%s:%s/".format(
                 intent.getStringExtra("ip"),
                 intent.getStringExtra("port")))
+
+            val bottomNavigationBar: BottomNavigationView = findViewById(R.id.bottomNavigationBar)
         }
     }
+
 }
 

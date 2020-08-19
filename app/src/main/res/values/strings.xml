@@ -8,4 +8,7 @@
     <string name="face_detection_button">Face detection button</string>
     <string name="shutter_button">Shutter button</string>
     <string name="rotation_button">Rotation button</string>
+    <string name="shutter">Shutter</string>
+    <string name="face_detection">Face Detection</string>
+    <string name="rotate_camera">Rotate Camera</string>
 </resources>
