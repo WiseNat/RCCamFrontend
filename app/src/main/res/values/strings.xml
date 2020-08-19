@@ -4,4 +4,8 @@
     <string name="ip_address">IP Address</string>
     <string name="connect">CONNECT</string>
     <string name="temp">Temp</string>
+    <string name="this_is_just_temporary">This is just temporary</string>
+    <string name="face_detection_button">Face detection button</string>
+    <string name="shutter_button">Shutter button</string>
+    <string name="rotation_button">Rotation button</string>
 </resources>
