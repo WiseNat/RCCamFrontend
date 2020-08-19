@@ -56,14 +56,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:contentDescription="@string/face_detection_button"
-                app:srcCompat="@drawable/tempFaceDetection" />
+                app:srcCompat="@drawable/temp_face_detection" />
 
             <ImageButton
                 android:id="@+id/btnShutter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/shutter_button"
-                app:srcCompat="@drawable/tempShutter" />
+                app:srcCompat="@drawable/temp_shutter" />
 
             <ImageButton
                 android:id="@+id/btnRotate"
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:contentDescription="@string/rotation_button"
-                app:srcCompat="@drawable/tempRotation" />
+                app:srcCompat="@drawable/temp_rotation" />
         </LinearLayout>
 
     </LinearLayout>
