@@ -11,4 +11,6 @@
     <string name="shutter">Shutter</string>
     <string name="face_detection">Face Detection</string>
     <string name="rotate_camera">Rotate Camera</string>
+    <string name="rcpi_cam">RCPI Cam</string>
+    <string name="just_the_logo">Just the logo</string>
 </resources>

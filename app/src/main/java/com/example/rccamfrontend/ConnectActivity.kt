@@ -45,6 +45,7 @@ class ConnectActivity : AppCompatActivity() {
             if (nextActivity){ // Process for Main activity
 
                 var webviewError = false
+
                 val hiddenWebview = findViewById<WebView>(R.id.hiddenWebview)
                 hiddenWebview.webViewClient = object : WebViewClient() { // Webpage failed to load
                     override fun onReceivedError (view: WebView, request: WebResourceRequest, error: WebResourceError) {
@@ -54,7 +55,7 @@ class ConnectActivity : AppCompatActivity() {
 
                     override fun onPageFinished(view: WebView?, url: String?) { // Go to next activity
                         super.onPageFinished(view, url)
-
+                        generateToast(this@ConnectActivity, webviewError.toString())
                         if (!webviewError){
                             val intent = Intent(this@ConnectActivity, MainActivity::class.java)
                             intent.putExtra("ip", textfieldIP.text.toString())
