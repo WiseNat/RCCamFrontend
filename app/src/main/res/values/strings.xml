@@ -4,4 +4,13 @@
     <string name="ip_address">IP Address</string>
     <string name="connect">CONNECT</string>
     <string name="temp">Temp</string>
+    <string name="this_is_just_temporary">This is just temporary</string>
+    <string name="face_detection_button">Face detection button</string>
+    <string name="shutter_button">Shutter button</string>
+    <string name="rotation_button">Rotation button</string>
+    <string name="shutter">Shutter</string>
+    <string name="face_detection">Face Detection</string>
+    <string name="rotate_camera">Rotate Camera</string>
+    <string name="rcpi_cam">RCPI Cam</string>
+    <string name="just_the_logo">Just the logo</string>
 </resources>
