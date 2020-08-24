@@ -3,14 +3,28 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/gillsansmtcondensed"
-        android:hint="yaw" />
+        android:fontFamily="sans-serif"
+        android:hint="@string/yaw"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/gillsansmtcondensed"
-        android:hint="pitch"/>
+        android:fontFamily="sans-serif"
+        android:hint="@string/pitch"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
 </LinearLayout>
