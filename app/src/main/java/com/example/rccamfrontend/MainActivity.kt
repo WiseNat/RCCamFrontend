@@ -8,18 +8,39 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val webview = findViewById<WebView>(R.id.webview)
+        val view = findViewById<View>(R.id.mainConstraint)
+
         webview.webViewClient = object : WebViewClient() {
             override fun onReceivedError (view: WebView, request: WebResourceRequest, error: WebResourceError) {
                 generateToast(this@MainActivity, error.description.toString(), dur=Toast.LENGTH_LONG)
+            }
+        }
+
+        bottomNavigationBar.setOnNavigationItemSelectedListener{ item ->
+            when(item.itemId) {
+                R.id.action_face_detection -> {
+                    generateSnack(view, "Face Detection")
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.action_shutter -> {
+                    generateSnack(view, "Shutter")
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.action_rotation -> {
+                    generateSnack(view, "Rotation")
+                    return@setOnNavigationItemSelectedListener true
+                } else -> {
+                    return@setOnNavigationItemSelectedListener false
+                }
             }
         }
 
@@ -28,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                 intent.getStringExtra("ip"),
                 intent.getStringExtra("port")))
 
-            generateSnack(findViewById<View>(R.id.mainConstraint), "Loaded URL")
+            generateSnack(view, "Loaded URL")
         }
     }
 
