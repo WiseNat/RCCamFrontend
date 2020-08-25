@@ -8,6 +8,7 @@ import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -43,13 +44,39 @@ class MainActivity : AppCompatActivity() {
                 R.id.action_rotation -> {
                     val dialog = AlertDialog.Builder(this)
                     val dialogView = this.layoutInflater.inflate(R.layout.dialogue_rotation, findViewById(R.id.content), false)
+
+                    // Getting incrementation and decrementation buttons
+                    val btnYawPlus = dialogView.findViewById<Button>(R.id.btnYawPlus)
+                    val btnYawMinus = dialogView.findViewById<Button>(R.id.btnYawMinus)
+                    val btnPitchPlus = dialogView.findViewById<Button>(R.id.btnPitchPlus)
+                    val btnPitchMinus = dialogView.findViewById<Button>(R.id.btnPitchMinus)
+
+                    // Getting textfields
+                    val textfieldYaw = dialogView.findViewById<TextView>(R.id.textfieldYaw)
+                    val textfieldPitch = dialogView.findViewById<TextView>(R.id.textfieldPitch)
+
+                    btnYawPlus.setOnClickListener {  // Increment btnYaw
+                        incrementTextView(textfieldYaw, 1)
+                    }
+
+                    btnYawMinus.setOnClickListener {  // Decrement btnYaw
+                        incrementTextView(textfieldYaw, -1)
+                    }
+
+                    btnPitchPlus.setOnClickListener {  // Increment btnPitch
+                        incrementTextView(textfieldPitch, 1)
+                    }
+
+                    btnPitchMinus.setOnClickListener{  // Decrement btnPitch
+                        incrementTextView(textfieldPitch, -1)
+                    }
+
                     dialog
                         .setTitle("Set Rotation")
                         .setView(dialogView)
                         .setPositiveButton("Confirm") {_, _ ->
-                            val textfieldPitchData = dialogView.findViewById<TextView>(R.id.textfieldPitch).text.toString()
-                            val textfieldYawData = dialogView.findViewById<TextView>(R.id.textfieldYaw).text.toString()
-
+                            val textfieldPitchData = textfieldPitch.text.toString()
+                            val textfieldYawData = textfieldYaw.text.toString()
 
                             // <ip>/?p=int&y=int
                             // URL Arg Logic
