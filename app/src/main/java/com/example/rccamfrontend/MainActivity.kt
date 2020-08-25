@@ -2,6 +2,7 @@ package com.example.rccamfrontend
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.service.autofill.Validators.not
 import android.view.View
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
@@ -53,16 +54,18 @@ class MainActivity : AppCompatActivity() {
                             // <ip>/?p=int&y=int
                             // URL Arg Logic
                             var servoUrl = url
-                            if (textfieldPitchData != ""){ // Pitch arg supplied
-                                servoUrl += "/?p=%s".format(textfieldPitchData)
-                                if (textfieldYawData != ""){ // Both args supplied
-                                    servoUrl += "&y=%s".format(textfieldYawData)
+                            if (textfieldPitchData != "" || textfieldYawData != ""){
+                                if (textfieldPitchData != ""){ // Pitch arg supplied
+                                    servoUrl += "/?p=%s".format(textfieldPitchData)
+                                    if (textfieldYawData != ""){ // Both args supplied
+                                        servoUrl += "&y=%s".format(textfieldYawData)
+                                    }
+                                } else if (textfieldYawData != ""){ // Just yaw arg supplied
+                                    servoUrl += "/?y=%s".format(textfieldYawData)
                                 }
-                            } else if (textfieldYawData != ""){ // Just yaw arg supplied
-                                servoUrl += "/?y=%s".format(textfieldYawData)
-                            }
 
-                            webview.loadUrl(servoUrl)
+                                webview.loadUrl(servoUrl)
+                            }
                         }
                         .setNegativeButton("Cancel") {_, _ ->
                             // Do nothing - Android auto dismisses
