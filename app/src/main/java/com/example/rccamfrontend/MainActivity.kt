@@ -1,19 +1,21 @@
 package com.example.rccamfrontend
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
+
+    private var url = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,18 +40,34 @@ class MainActivity : AppCompatActivity() {
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.action_rotation -> {
-                    generateSnack(view, "Rotation")
-                    val alertBuilder = AlertDialog.Builder(this)
-                    alertBuilder
+                    val dialog = AlertDialog.Builder(this)
+                    val dialogView = this.layoutInflater.inflate(R.layout.dialogue_rotation, findViewById(R.id.content), false)
+                    dialog
                         .setTitle("Set Rotation")
-                        .setView(this.layoutInflater.inflate(R.layout.dialogue_rotation, findViewById(R.id.content), false))
+                        .setView(dialogView)
                         .setPositiveButton("Confirm") {_, _ ->
-                            generateSnack(view, "Confirm code here")
+                            val textfieldPitchData = dialogView.findViewById<TextView>(R.id.textfieldPitch).text.toString()
+                            val textfieldYawData = dialogView.findViewById<TextView>(R.id.textfieldYaw).text.toString()
+
+
+                            // <ip>/?p=int&y=int
+                            // URL Arg Logic
+                            var servoUrl = url
+                            if (textfieldPitchData != ""){ // Pitch arg supplied
+                                servoUrl += "/?p=%s".format(textfieldPitchData)
+                                if (textfieldYawData != ""){ // Both args supplied
+                                    servoUrl += "&y=%s".format(textfieldYawData)
+                                }
+                            } else if (textfieldYawData != ""){ // Just yaw arg supplied
+                                servoUrl += "/?y=%s".format(textfieldYawData)
+                            }
+
+                            webview.loadUrl(servoUrl)
                         }
                         .setNegativeButton("Cancel") {_, _ ->
                             // Do nothing - Android auto dismisses
                         }
-                    alertBuilder.show()
+                        .show()
                     return@setOnNavigationItemSelectedListener true
                 } else -> {
                     return@setOnNavigationItemSelectedListener false
@@ -60,9 +78,10 @@ class MainActivity : AppCompatActivity() {
 
 
         if (intent != null) {
-            webview.loadUrl("http://%s:%s/".format(
+            url = "http://%s:%s".format(
                 intent.getStringExtra("ip"),
-                intent.getStringExtra("port")))
+                intent.getStringExtra("port"))
+            webview.loadUrl(url)
 
             generateSnack(view, "Loaded URL")
         }

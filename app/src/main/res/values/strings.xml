@@ -15,4 +15,8 @@
     <string name="just_the_logo">Just the logo</string>
     <string name="yaw">Yaw</string>
     <string name="pitch">Pitch</string>
+    <string name="dialog_rotat_height">10dp</string>
+    <string name="dialog_rotat_width">10dp</string>
+    <string name="btnPlus">+</string>
+    <string name="btnMinus">-</string>
 </resources>
