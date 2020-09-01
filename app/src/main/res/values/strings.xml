@@ -19,4 +19,5 @@
     <string name="dialog_rotat_width">10dp</string>
     <string name="btnPlus">+</string>
     <string name="btnMinus">-</string>
+    <string name="maxRot">13</string>
 </resources>
