@@ -2,8 +2,6 @@ package com.example.rccamfrontend
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.text.InputFilter
-import android.text.TextWatcher
 import android.view.View
 import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
@@ -11,12 +9,10 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlin.reflect.typeOf
 
 
 class MainActivity : AppCompatActivity() {
@@ -47,6 +43,8 @@ class MainActivity : AppCompatActivity() {
             when(item.itemId) {
                 R.id.action_face_detection -> {
                     generateSnack(view, "Face Detection")
+                    val faceURL = "$url?o=f"
+                    webview.loadUrl(faceURL)
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.action_shutter -> {
