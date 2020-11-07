@@ -54,7 +54,8 @@ class ConnectActivity : AppCompatActivity() {
                         generateSnack(
                             findViewById(R.id.connectConstraint),
                             error.description.toString(),
-                            dur= Snackbar.LENGTH_LONG)
+                            dur = Snackbar.LENGTH_LONG
+                        )
                         webviewError = true
                     }
 

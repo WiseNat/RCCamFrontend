@@ -45,11 +45,11 @@ class MainActivity : AppCompatActivity() {
                     generateSnack(view, "Face Detection")
                     val faceURL = "$url?o=f"
                     webview.loadUrl(faceURL)
-                    return@setOnNavigationItemSelectedListener true
                 }
                 R.id.action_shutter -> {
-                    generateSnack(view, "Shutter")
-                    return@setOnNavigationItemSelectedListener true
+                    generateSnack(webview, "Shutter", anch=bottomNavigationBar)
+                    val shutterURL = "$url?o=s"
+                    webview.loadUrl(shutterURL)
                 }
                 R.id.action_rotation -> {
                     val dialog = AlertDialog.Builder(this)
@@ -140,11 +140,9 @@ class MainActivity : AppCompatActivity() {
                             // Do nothing - Android auto dismisses
                         }
                         .show()
-                    return@setOnNavigationItemSelectedListener true
-                } else -> {
-                    return@setOnNavigationItemSelectedListener false
                 }
             }
+            return@setOnNavigationItemSelectedListener true
         }
 
 
