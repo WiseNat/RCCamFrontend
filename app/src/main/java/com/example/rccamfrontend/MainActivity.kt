@@ -42,14 +42,14 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationBar.setOnNavigationItemSelectedListener{ item ->
             when(item.itemId) {
                 R.id.action_face_detection -> {
-                    generateSnack(view, "Face Detection")
+                    generateSnack(view, "Face Detection", anch=bottomNavigationBar)
                     val faceURL = "$url?o=f"
                     webview.loadUrl(faceURL)
                 }
                 R.id.action_shutter -> {
-                    generateSnack(webview, "Shutter", anch=bottomNavigationBar)
                     val shutterURL = "$url?o=s"
                     webview.loadUrl(shutterURL)
+                    generateSnack(view, "Taken photo", anch=bottomNavigationBar)
                 }
                 R.id.action_rotation -> {
                     val dialog = AlertDialog.Builder(this)
