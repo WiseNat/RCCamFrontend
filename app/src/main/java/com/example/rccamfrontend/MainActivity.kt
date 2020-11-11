@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                     webview.loadUrl(faceURL)
                 }
                 R.id.action_shutter -> {
-                    val shutterURL = "$url?o=s"
+                    val shutterURL = "$url/photo"
                     webview.loadUrl(shutterURL)
                     generateSnack(view, "Taken photo", anch=bottomNavigationBar)
                 }
@@ -120,21 +120,22 @@ class MainActivity : AppCompatActivity() {
                             val textfieldPitchData = textfieldPitch.text.toString()
                             val textfieldYawData = textfieldYaw.text.toString()
 
-                            // <ip>/?p=int&y=int
+                            // <ip>/servo?p=int&y=int
                             // URL Arg Logic
-                            var servoUrl = url
-                            if (textfieldPitchData != "" || textfieldYawData != "") {
-                                if (textfieldPitchData != "") { // Pitch arg supplied
-                                    servoUrl += "/?p=%s".format(textfieldPitchData)
-                                    if (textfieldYawData != "") { // Both args supplied
-                                        servoUrl += "&y=%s".format(textfieldYawData)
-                                    }
-                                } else if (textfieldYawData != "") { // Just yaw arg supplied
-                                    servoUrl += "/?y=%s".format(textfieldYawData)
-                                }
+                            var servoUrl = ""
 
-                                webview.loadUrl(servoUrl)
+                            if (textfieldPitchData != "") { // Pitch arg supplied
+                                servoUrl += "p=$textfieldPitchData&"
                             }
+
+                            if (textfieldYawData != "") { // Yaw arg supplied
+                                servoUrl += "y=$textfieldYawData"
+                            }
+
+                            if (servoUrl != "") {
+                                webview.loadUrl("$url/servo?$servoUrl")
+                            }
+
                         }
                         .setNegativeButton("Cancel") { _, _ ->
                             // Do nothing - Android auto dismisses
