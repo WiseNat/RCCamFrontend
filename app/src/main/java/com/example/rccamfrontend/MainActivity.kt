@@ -4,7 +4,7 @@ import android.app.AlertDialog
 import android.app.DownloadManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment.DIRECTORY_PICTURES
+import android.os.Environment.DIRECTORY_DOWNLOADS
 import android.view.View
 import android.webkit.*
 import android.widget.Button
@@ -23,20 +23,26 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val view = findViewById<View>(R.id.mainConstraint)
-        webview.setDownloadListener { url, _, contentDisposition, mimeType, _ ->
+        webview.setDownloadListener { url, userAgent, contentDisposition, mimeType, contentLength ->
             // Getting filename
             val filename = URLUtil.guessFileName(url, contentDisposition, mimeType)
+            val cookies = CookieManager.getInstance().getCookie(url)
 
             // Setting up Download Request Manager
             val request = DownloadManager.Request(Uri.parse(url))
             request
-                .setTitle("Photo")
+                .setMimeType(mimeType)
+                .addRequestHeader("cookie", cookies)
+                .addRequestHeader("User-Agent", userAgent)
+                .setTitle(filename)
                 .setDescription("Taken from RPI")
-                .setDestinationInExternalPublicDir(DIRECTORY_PICTURES, filename)
+                .setDestinationInExternalPublicDir(DIRECTORY_DOWNLOADS, filename)
 
             // Setting up Main Download Manager
             val manager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
             manager.enqueue(request)
+
+            generateSnack(view, filename)
 
         }
 
@@ -68,7 +74,7 @@ class MainActivity : AppCompatActivity() {
                     val shutterURL = "$url/photo"
                     webview.loadUrl(shutterURL)
 
-                    generateSnack(view, "Taken photo", anch = bottomNavigationBar)
+                    // generateSnack(view, "Taken photo", anch = bottomNavigationBar)
                 }
                 R.id.action_rotation -> {
                     val dialog = AlertDialog.Builder(this)
