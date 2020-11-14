@@ -1,19 +1,18 @@
 package com.example.rccamfrontend
 
 import android.app.AlertDialog
+import android.app.DownloadManager
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment.DIRECTORY_PICTURES
 import android.view.View
-import android.webkit.WebResourceError
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import kotlinx.android.synthetic.main.activity_main.*
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,7 +23,24 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val view = findViewById<View>(R.id.mainConstraint)
+        webview.setDownloadListener { url, _, contentDisposition, mimeType, _ ->
+            // Getting filename
+            val filename = URLUtil.guessFileName(url, contentDisposition, mimeType)
 
+            // Setting up Download Request Manager
+            val request = DownloadManager.Request(Uri.parse(url))
+            request
+                .setTitle("Photo")
+                .setDescription("Taken from RPI")
+                .setDestinationInExternalPublicDir(DIRECTORY_PICTURES, filename)
+
+            // Setting up Main Download Manager
+            val manager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+            manager.enqueue(request)
+
+        }
+
+        // Error handling kinda
         webview.webViewClient = object : WebViewClient() {
             override fun onReceivedError(
                 view: WebView,
@@ -42,14 +58,17 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationBar.setOnNavigationItemSelectedListener{ item ->
             when(item.itemId) {
                 R.id.action_face_detection -> {
-                    generateSnack(view, "Face Detection", anch=bottomNavigationBar)
                     val faceURL = "$url?o=f"
                     webview.loadUrl(faceURL)
+
+                    generateSnack(view, "Face Detection", anch = bottomNavigationBar)
                 }
                 R.id.action_shutter -> {
+                    // Setting up Download Request Manager
                     val shutterURL = "$url/photo"
                     webview.loadUrl(shutterURL)
-                    generateSnack(view, "Taken photo", anch=bottomNavigationBar)
+
+                    generateSnack(view, "Taken photo", anch = bottomNavigationBar)
                 }
                 R.id.action_rotation -> {
                     val dialog = AlertDialog.Builder(this)
@@ -73,11 +92,11 @@ class MainActivity : AppCompatActivity() {
                     // Setting value limit for text views
                     textfieldPitch.doOnTextChanged { text, start, before, count ->
                         val textInt = text.toString().toIntOrNull()
-                        if (textInt != null){
-                            if (textInt > 13){
-                                textfieldPitch.setText(getString(R.string.maxRot))
-                            } else if (textInt < 0){
-                                textfieldPitch.setText("0")
+                        if (textInt != null) {
+                            if (textInt > 13) {
+                                textfieldYaw.setText(getString(R.string.maxRot))
+                            } else if (textInt < 0) {
+                                textfieldYaw.setText("0")
                             }
                         }
                         textfieldPitch.setSelection(textfieldPitch.text.length)
@@ -85,10 +104,10 @@ class MainActivity : AppCompatActivity() {
 
                     textfieldYaw.doOnTextChanged { text, start, before, count ->
                         val textInt = text.toString().toIntOrNull()
-                        if (textInt != null){
-                            if (textInt > 13){
+                        if (textInt != null) {
+                            if (textInt > 13) {
                                 textfieldYaw.setText(getString(R.string.maxRot))
-                            } else if (textInt < 0){
+                            } else if (textInt < 0) {
                                 textfieldYaw.setText("0")
                             }
                         }
