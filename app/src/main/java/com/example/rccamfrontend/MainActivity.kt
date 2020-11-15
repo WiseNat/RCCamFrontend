@@ -1,19 +1,18 @@
 package com.example.rccamfrontend
 
 import android.app.AlertDialog
+import android.app.DownloadManager
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment.DIRECTORY_DOWNLOADS
 import android.view.View
-import android.webkit.WebResourceError
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import android.webkit.*
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import kotlinx.android.synthetic.main.activity_main.*
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,7 +23,27 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val view = findViewById<View>(R.id.mainConstraint)
+        webview.setDownloadListener { thisUrl, _, contentDisposition, mimeType, _ ->
+            // Getting filename and new URL
+            val filename = URLUtil.guessFileName(thisUrl, contentDisposition, mimeType)
+            val newUrl = "$url/get_photo/$filename"
 
+            // Setting up Download Request Manager
+            val request = DownloadManager.Request(Uri.parse(newUrl))
+            request
+                .setTitle(filename)
+                .setDescription("Taken from RPI")
+                .setDestinationInExternalPublicDir(DIRECTORY_DOWNLOADS, filename)
+
+            // Setting up Main Download Manager
+            val manager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
+            manager.enqueue(request)
+
+            generateSnack(view, filename)
+
+        }
+
+        // Error handling kinda
         webview.webViewClient = object : WebViewClient() {
             override fun onReceivedError(
                 view: WebView,
@@ -39,24 +58,76 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        bottomNavigationBar.findViewById<View>(R.id.action_shutter).setOnLongClickListener{ _ ->
+            val dialog = AlertDialog.Builder(this)
+            val dialogView = this.layoutInflater.inflate(
+                R.layout.dialogue_timed,
+                findViewById(R.id.content),
+                false
+            )
+
+            // Getting textfield and buttons
+            val textfieldTime = dialogView.findViewById<EditText>(R.id.textfieldTime)
+            val btnTimePlus = dialogView.findViewById<Button>(R.id.btnTimePlus)
+            val btnTimeMinus = dialogView.findViewById<Button>(R.id.btnTimeMinus)
+
+
+            // Setting value limit for text views
+            textfieldTime.doOnTextChanged { text, _, _, _ ->
+                val textInt = text.toString().toIntOrNull()
+                if (textInt != null && textInt < 0) {
+                    textfieldTime.setText("0")
+                }
+                textfieldTime.setSelection(textfieldTime.text.length)
+            }
+
+            // Setting onClick actions for inc/dec buttons
+            btnTimePlus.setOnClickListener {  // Increment btnYaw
+                incrementTextView(textfieldTime, 1)
+            }
+
+            btnTimeMinus.setOnClickListener {  // Decrement btnYaw
+                incrementTextView(textfieldTime, -1)
+            }
+
+            dialog
+                .setTitle("Choose Time to Wait")
+                .setView(dialogView)
+                .setPositiveButton("Confirm") { _, _ ->
+                    val textfieldTimeData = textfieldTime.text.toString()
+
+                    // <ip>/take_photo/float
+                    webview.loadUrl("$url/take_photo/$textfieldTimeData")
+
+                }
+                .setNegativeButton("Cancel") { _, _ ->
+                    // Do nothing - Android auto dismisses
+                }
+                .show()
+            return@setOnLongClickListener true
+        }
+
         bottomNavigationBar.setOnNavigationItemSelectedListener{ item ->
             when(item.itemId) {
                 R.id.action_face_detection -> {
-                    generateSnack(view, "Face Detection")
                     val faceURL = "$url?o=f"
                     webview.loadUrl(faceURL)
-                    return@setOnNavigationItemSelectedListener true
+
+                    generateSnack(view, "Face Detection", anch = bottomNavigationBar)
                 }
                 R.id.action_shutter -> {
-                    generateSnack(view, "Shutter")
-                    return@setOnNavigationItemSelectedListener true
+                    // Setting up Download Request Manager
+                    val shutterURL = "$url/take_photo"
+                    webview.loadUrl(shutterURL)
+
+                    // generateSnack(view, "Taken photo", anch = bottomNavigationBar)
                 }
                 R.id.action_rotation -> {
                     val dialog = AlertDialog.Builder(this)
                     val dialogView = this.layoutInflater.inflate(
-                        R.layout.dialogue_rotation, findViewById(
-                            R.id.content
-                        ), false
+                        R.layout.dialogue_rotation,
+                        findViewById(R.id.content),
+                        false
                     )
 
                     // Getting textfields
@@ -71,24 +142,24 @@ class MainActivity : AppCompatActivity() {
 
 
                     // Setting value limit for text views
-                    textfieldPitch.doOnTextChanged { text, start, before, count ->
+                    textfieldPitch.doOnTextChanged { text, _, _, _ ->
                         val textInt = text.toString().toIntOrNull()
-                        if (textInt != null){
-                            if (textInt > 13){
-                                textfieldPitch.setText(getString(R.string.maxRot))
-                            } else if (textInt < 0){
-                                textfieldPitch.setText("0")
+                        if (textInt != null) {
+                            if (textInt > 13) {
+                                textfieldYaw.setText(getString(R.string.maxRot))
+                            } else if (textInt < 0) {
+                                textfieldYaw.setText("0")
                             }
                         }
                         textfieldPitch.setSelection(textfieldPitch.text.length)
                     }
 
-                    textfieldYaw.doOnTextChanged { text, start, before, count ->
+                    textfieldYaw.doOnTextChanged { text, _, _, _ ->
                         val textInt = text.toString().toIntOrNull()
-                        if (textInt != null){
-                            if (textInt > 13){
+                        if (textInt != null) {
+                            if (textInt > 13) {
                                 textfieldYaw.setText(getString(R.string.maxRot))
-                            } else if (textInt < 0){
+                            } else if (textInt < 0) {
                                 textfieldYaw.setText("0")
                             }
                         }
@@ -120,34 +191,31 @@ class MainActivity : AppCompatActivity() {
                             val textfieldPitchData = textfieldPitch.text.toString()
                             val textfieldYawData = textfieldYaw.text.toString()
 
-                            // <ip>/?p=int&y=int
+                            // <ip>/servo?p=int&y=int
                             // URL Arg Logic
-                            var servoUrl = url
-                            if (textfieldPitchData != "" || textfieldYawData != "") {
-                                if (textfieldPitchData != "") { // Pitch arg supplied
-                                    servoUrl += "/?p=%s".format(textfieldPitchData)
-                                    if (textfieldYawData != "") { // Both args supplied
-                                        servoUrl += "&y=%s".format(textfieldYawData)
-                                    }
-                                } else if (textfieldYawData != "") { // Just yaw arg supplied
-                                    servoUrl += "/?y=%s".format(textfieldYawData)
-                                }
+                            var servoUrl = ""
 
-                                webview.loadUrl(servoUrl)
+                            if (textfieldPitchData != "") { // Pitch arg supplied
+                                servoUrl += "p=$textfieldPitchData&"
                             }
+
+                            if (textfieldYawData != "") { // Yaw arg supplied
+                                servoUrl += "y=$textfieldYawData"
+                            }
+
+                            if (servoUrl != "") {
+                                webview.loadUrl("$url/servo?$servoUrl")
+                            }
+
                         }
                         .setNegativeButton("Cancel") { _, _ ->
                             // Do nothing - Android auto dismisses
                         }
                         .show()
-                    return@setOnNavigationItemSelectedListener true
-                } else -> {
-                    return@setOnNavigationItemSelectedListener false
                 }
             }
+            return@setOnNavigationItemSelectedListener true
         }
-
-
 
         if (intent != null) {
             url = "http://%s:%s".format(
