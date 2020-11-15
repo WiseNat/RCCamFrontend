@@ -58,6 +58,55 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        bottomNavigationBar.findViewById<View>(R.id.action_shutter).setOnLongClickListener{ _ ->
+            val dialog = AlertDialog.Builder(this)
+            val dialogView = this.layoutInflater.inflate(
+                R.layout.dialogue_timed,
+                findViewById(R.id.content),
+                false
+            )
+
+            // Getting textfield and buttons
+            val textfieldTime = dialogView.findViewById<EditText>(R.id.textfieldTime)
+            val btnTimePlus = dialogView.findViewById<Button>(R.id.btnTimePlus)
+            val btnTimeMinus = dialogView.findViewById<Button>(R.id.btnTimeMinus)
+
+
+            // Setting value limit for text views
+            textfieldTime.doOnTextChanged { text, _, _, _ ->
+                val textInt = text.toString().toIntOrNull()
+                if (textInt != null && textInt < 0) {
+                    textfieldTime.setText("0")
+                }
+                textfieldTime.setSelection(textfieldTime.text.length)
+            }
+
+            // Setting onClick actions for inc/dec buttons
+            btnTimePlus.setOnClickListener {  // Increment btnYaw
+                incrementTextView(textfieldTime, 1)
+            }
+
+            btnTimeMinus.setOnClickListener {  // Decrement btnYaw
+                incrementTextView(textfieldTime, -1)
+            }
+
+            dialog
+                .setTitle("Choose Time to Wait")
+                .setView(dialogView)
+                .setPositiveButton("Confirm") { _, _ ->
+                    val textfieldTimeData = textfieldTime.text.toString()
+
+                    // <ip>/take_photo/float
+                    webview.loadUrl("$url/take_photo/$textfieldTimeData")
+
+                }
+                .setNegativeButton("Cancel") { _, _ ->
+                    // Do nothing - Android auto dismisses
+                }
+                .show()
+            return@setOnLongClickListener true
+        }
+
         bottomNavigationBar.setOnNavigationItemSelectedListener{ item ->
             when(item.itemId) {
                 R.id.action_face_detection -> {
@@ -76,9 +125,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.action_rotation -> {
                     val dialog = AlertDialog.Builder(this)
                     val dialogView = this.layoutInflater.inflate(
-                        R.layout.dialogue_rotation, findViewById(
-                            R.id.content
-                        ), false
+                        R.layout.dialogue_rotation,
+                        findViewById(R.id.content),
+                        false
                     )
 
                     // Getting textfields
@@ -93,7 +142,7 @@ class MainActivity : AppCompatActivity() {
 
 
                     // Setting value limit for text views
-                    textfieldPitch.doOnTextChanged { text, start, before, count ->
+                    textfieldPitch.doOnTextChanged { text, _, _, _ ->
                         val textInt = text.toString().toIntOrNull()
                         if (textInt != null) {
                             if (textInt > 13) {
@@ -105,7 +154,7 @@ class MainActivity : AppCompatActivity() {
                         textfieldPitch.setSelection(textfieldPitch.text.length)
                     }
 
-                    textfieldYaw.doOnTextChanged { text, start, before, count ->
+                    textfieldYaw.doOnTextChanged { text, _, _, _ ->
                         val textInt = text.toString().toIntOrNull()
                         if (textInt != null) {
                             if (textInt > 13) {
@@ -167,8 +216,6 @@ class MainActivity : AppCompatActivity() {
             }
             return@setOnNavigationItemSelectedListener true
         }
-
-
 
         if (intent != null) {
             url = "http://%s:%s".format(
