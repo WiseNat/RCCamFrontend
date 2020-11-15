@@ -23,17 +23,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val view = findViewById<View>(R.id.mainConstraint)
-        webview.setDownloadListener { url, userAgent, contentDisposition, mimeType, contentLength ->
+        webview.setDownloadListener { url, _, contentDisposition, mimeType, _ ->
             // Getting filename
             val filename = URLUtil.guessFileName(url, contentDisposition, mimeType)
-            val cookies = CookieManager.getInstance().getCookie(url)
 
             // Setting up Download Request Manager
             val request = DownloadManager.Request(Uri.parse(url))
             request
-                .setMimeType(mimeType)
-                .addRequestHeader("cookie", cookies)
-                .addRequestHeader("User-Agent", userAgent)
                 .setTitle(filename)
                 .setDescription("Taken from RPI")
                 .setDestinationInExternalPublicDir(DIRECTORY_DOWNLOADS, filename)
