@@ -23,12 +23,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val view = findViewById<View>(R.id.mainConstraint)
-        webview.setDownloadListener { url, _, contentDisposition, mimeType, _ ->
-            // Getting filename
-            val filename = URLUtil.guessFileName(url, contentDisposition, mimeType)
+        webview.setDownloadListener { thisUrl, _, contentDisposition, mimeType, _ ->
+            // Getting filename and new URL
+            val filename = URLUtil.guessFileName(thisUrl, contentDisposition, mimeType)
+            val newUrl = "$url/get_photo/$filename"
 
             // Setting up Download Request Manager
-            val request = DownloadManager.Request(Uri.parse(url))
+            val request = DownloadManager.Request(Uri.parse(newUrl))
             request
                 .setTitle(filename)
                 .setDescription("Taken from RPI")
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.action_shutter -> {
                     // Setting up Download Request Manager
-                    val shutterURL = "$url/photo"
+                    val shutterURL = "$url/take_photo"
                     webview.loadUrl(shutterURL)
 
                     // generateSnack(view, "Taken photo", anch = bottomNavigationBar)
