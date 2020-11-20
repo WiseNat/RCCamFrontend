@@ -23,6 +23,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Modifying Action Bar
+        supportActionBar?.title = ""
+
+        // Modifying Webview
         val view = findViewById<View>(R.id.mainConstraint)
         webview.setDownloadListener { thisUrl, _, contentDisposition, mimeType, _ ->
             // Getting filename and new URL
