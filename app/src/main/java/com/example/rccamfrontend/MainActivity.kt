@@ -5,6 +5,7 @@ import android.app.DownloadManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment.DIRECTORY_DOWNLOADS
+import android.view.Menu
 import android.view.View
 import android.webkit.*
 import android.widget.Button
@@ -228,5 +229,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.action_bar, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
 }
 
