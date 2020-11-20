@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val view = findViewById<View>(R.id.constraintLayout)
+        val view = findViewById<View>(R.id.mainConstraint)
         webview.setDownloadListener { thisUrl, _, contentDisposition, mimeType, _ ->
             // Getting filename and new URL
             val filename = URLUtil.guessFileName(thisUrl, contentDisposition, mimeType)
