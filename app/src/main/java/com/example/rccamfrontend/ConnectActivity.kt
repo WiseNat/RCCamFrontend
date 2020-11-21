@@ -16,6 +16,9 @@ class ConnectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_connect)
 
+        // Modifying Action Bar
+        supportActionBar?.title = "Connect to RPI"
+
         val ipPat = Regex("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])(\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])){3}\$")
 
         btnConnect.setOnClickListener{

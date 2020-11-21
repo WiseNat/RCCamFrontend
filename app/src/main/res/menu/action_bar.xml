@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/open_photo_gallery"
+        android:titleCondensed="Photo Gallery"
+        android:id="@+id/open_photo_gallery"
+        android:icon="@drawable/ic_round_photo_library_24"
+        app:showAsAction="ifRoom" />
+
+    <item android:title="@string/share_latest_photo"
+        android:id="@+id/share"
+        android:icon="@drawable/ic_baseline_share_24"
+        app:showAsAction="ifRoom" />
+
+    <item android:title="@string/about"
+        android:id="@+id/about"
+        android:icon="@drawable/ic_baseline_info_24"
+        app:showAsAction="ifRoom" />
+
+</menu>

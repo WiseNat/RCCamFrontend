@@ -2,9 +2,15 @@ package com.example.rccamfrontend
 
 import android.app.AlertDialog
 import android.app.DownloadManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment.DIRECTORY_DOWNLOADS
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.webkit.*
 import android.widget.Button
@@ -14,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import kotlinx.android.synthetic.main.activity_main.*
 
+
 class MainActivity : AppCompatActivity() {
 
     var url = ""
@@ -22,6 +29,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Modifying Action Bar
+        supportActionBar?.title = ""
+
+        // Modifying Webview
         val view = findViewById<View>(R.id.mainConstraint)
         webview.setDownloadListener { thisUrl, _, contentDisposition, mimeType, _ ->
             // Getting filename and new URL
@@ -38,6 +49,27 @@ class MainActivity : AppCompatActivity() {
             // Setting up Main Download Manager
             val manager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
             manager.enqueue(request)
+
+            val onDownloadComplete = object : BroadcastReceiver() {
+                override fun onReceive(context: Context?, intent: Intent?) {
+                    val id = intent!!.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+                    if (id != -1L) {
+                        // File received
+                        val uri = manager.getUriForDownloadedFile(id)
+                        with(getPreferences(Context.MODE_PRIVATE).edit()){
+                            putString("URI", uri.toString())
+                            apply()
+                        }
+                    } else {
+                        generateToast(this@MainActivity, "Failed to get ID, $id")
+                    }
+                }
+            }
+
+            registerReceiver(
+                onDownloadComplete,
+                IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
+            )
 
             generateSnack(view, filename)
 
@@ -228,5 +260,42 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.action_bar, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.open_photo_gallery -> {
+                // Open Photo Gallery Clicked
+            }
+            R.id.share -> {
+                // Share Media Clicked
+
+                with(Intent(Intent.ACTION_SEND)){
+                    val sharedPref = getPreferences(Context.MODE_PRIVATE)
+                    val imagePath = sharedPref.getString("URI", "")
+
+                    if (imagePath == ""){
+                        generateSnack(
+                            findViewById(R.id.mainConstraint),
+                            "You haven't got a recent photo to share yet",
+                            anch = bottomNavigationBar
+                        )
+                    } else {
+                        type = "image/*"
+                        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        putExtra(Intent.EXTRA_STREAM, Uri.parse(imagePath))
+                        startActivity(Intent.createChooser(this, "Share Image Using"))
+                    }
+                }
+            }
+            R.id.about -> {
+                // About clicked
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }
 

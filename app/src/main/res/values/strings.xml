@@ -21,4 +21,7 @@
     <string name="btnMinus">-</string>
     <string name="maxRot">13</string>
     <string name="seconds">Seconds</string>
+    <string name="share_latest_photo">Share Latest Photo</string>
+    <string name="open_photo_gallery">Open Photo Gallery</string>
+    <string name="about">About</string>
 </resources>
