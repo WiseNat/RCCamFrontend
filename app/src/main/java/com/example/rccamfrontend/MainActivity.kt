@@ -44,6 +44,27 @@ class MainActivity : AppCompatActivity() {
             val manager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
             manager.enqueue(request)
 
+            val onDownloadComplete = object : BroadcastReceiver() {
+                override fun onReceive(context: Context?, intent: Intent?) {
+                    val id = intent!!.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+                    if (id != -1L) {
+                        // File received
+                        val uri = manager.getUriForDownloadedFile(id)
+                        with(getPreferences(Context.MODE_PRIVATE).edit()){
+                            putString("URI", uri.toString())
+                            apply()
+                        }
+                    } else {
+                        generateToast(this@MainActivity, "Failed to get ID, $id")
+                    }
+                }
+            }
+
+            registerReceiver(
+                onDownloadComplete,
+                IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
+            )
+
             generateSnack(view, filename)
 
         }
