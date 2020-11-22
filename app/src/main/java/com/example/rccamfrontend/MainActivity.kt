@@ -269,15 +269,22 @@ class MainActivity : AppCompatActivity() {
         when(item.itemId){
             R.id.open_photo_gallery -> {
                 // Open Photo Gallery Clicked
+
+                val intent = Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("content://media/internal/images/media")
+                )
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
             }
             R.id.share -> {
                 // Share Media Clicked
 
-                with(Intent(Intent.ACTION_SEND)){
+                with(Intent(Intent.ACTION_SEND)) {
                     val sharedPref = getPreferences(Context.MODE_PRIVATE)
                     val imagePath = sharedPref.getString("URI", "")
 
-                    if (imagePath == ""){
+                    if (imagePath == "") {
                         generateSnack(
                             findViewById(R.id.mainConstraint),
                             "You haven't got a recent photo to share yet",
