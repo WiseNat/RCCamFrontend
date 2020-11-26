@@ -1,10 +1,32 @@
 <resources>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/spaceBlue</item>
-        <item name="colorPrimaryDark">@color/midnightBlue</item>
-        <item name="colorAccent">@color/gray</item>
+        <!-- App Body Colours -->
+        <item name="colorPrimary">@color/midnightBlue</item>
+        <item name="colorPrimaryDark">@color/deepBlue</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="android:windowBackground">@color/spaceBlue</item>
+
+        <!-- Default Control Colours -->
+        <item name="colorControlNormal">@color/navy</item>
+        <item name="colorControlActivated">@color/white</item>
+
+        <!-- Action Bar Related -->
+        <item name="actionBarTheme">@style/ActionBarTheme</item>
+
+        <!-- Text Related -->
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorHint">@color/lightGray</item>
+
+        <!-- Button Related -->
+        <item name="android:colorButtonNormal">@color/slateBlue</item>
+    </style>
+
+    <style name="ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.Light">
+        <item name="android:fontFamily">@font/agencyr</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textSize">50sp</item>
     </style>
 
 </resources>
