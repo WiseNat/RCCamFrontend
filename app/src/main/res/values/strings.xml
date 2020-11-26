@@ -24,4 +24,6 @@
     <string name="share_latest_photo">Share Latest Photo</string>
     <string name="open_photo_gallery">Open Photo Gallery</string>
     <string name="about">About</string>
+    <string name="contact">Contact me at 14nwise@debdenparkhighschool.org\nAll Rights Reserved</string>
+    <string name="ip_nport">IP: --\nPort: --</string>
 </resources>

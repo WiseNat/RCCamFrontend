@@ -18,6 +18,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
+import kotlinx.android.synthetic.main.activity_connect.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -300,6 +301,11 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.about -> {
                 // About clicked
+
+                val intent = Intent(this, AboutActivity::class.java)
+                intent.putExtra("ip", intent.getStringExtra("ip"))
+                intent.putExtra("port", intent.getStringExtra("port"))
+                startActivity(intent)
             }
         }
         return super.onOptionsItemSelected(item)
