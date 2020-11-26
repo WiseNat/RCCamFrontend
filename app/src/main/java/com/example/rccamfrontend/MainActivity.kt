@@ -302,10 +302,10 @@ class MainActivity : AppCompatActivity() {
             R.id.about -> {
                 // About clicked
 
-                val intent = Intent(this, AboutActivity::class.java)
-                intent.putExtra("ip", intent.getStringExtra("ip"))
-                intent.putExtra("port", intent.getStringExtra("port"))
-                startActivity(intent)
+                val aboutIntent = Intent(this, AboutActivity::class.java)
+                aboutIntent.putExtra("ip", intent.getStringExtra("ip"))
+                aboutIntent.putExtra("port", intent.getStringExtra("port"))
+                startActivity(aboutIntent)
             }
         }
         return super.onOptionsItemSelected(item)

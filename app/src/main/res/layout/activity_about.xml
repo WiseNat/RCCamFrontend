@@ -10,7 +10,7 @@
         android:id="@+id/textViewNet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/ip_nport"
+        android:text="@string/ip_port"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp" />
 
