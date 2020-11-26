@@ -25,5 +25,6 @@
     <string name="open_photo_gallery">Open Photo Gallery</string>
     <string name="about">About</string>
     <string name="contact">Contact me at 14nwise@debdenparkhighschool.org\nAll Rights Reserved</string>
-    <string name="ip_nport">IP: --\nPort: --</string>
+    <string name="ip_nport">IP: Unknown\nPort: Unknown</string>
+    <string name="version">Version: Unknown</string>
 </resources>

@@ -18,7 +18,7 @@
         android:id="@+id/textViewVer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Version: "
+        android:text="@string/version"
         app:layout_constraintTop_toBottomOf="@+id/textViewNet"
         tools:layout_editor_absoluteX="0dp" />
 
