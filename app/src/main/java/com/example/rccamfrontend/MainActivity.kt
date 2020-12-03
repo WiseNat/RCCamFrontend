@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    var url = ""
+    private var url = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,7 +91,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        bottomNavigationBar.findViewById<View>(R.id.action_shutter).setOnLongClickListener{ _ ->
+        bottomNavigationBar.findViewById<View>(R.id.action_shutter).setOnLongClickListener{
             val dialog = AlertDialog.Builder(this)
             val dialogView = this.layoutInflater.inflate(
                 R.layout.dialogue_timed,

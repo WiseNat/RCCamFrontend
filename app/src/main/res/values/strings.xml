@@ -3,11 +3,6 @@
     <string name="port_number">Port Number</string>
     <string name="ip_address">IP Address</string>
     <string name="connect">CONNECT</string>
-    <string name="temp">Temp</string>
-    <string name="this_is_just_temporary">This is just temporary</string>
-    <string name="face_detection_button">Face detection button</string>
-    <string name="shutter_button">Shutter button</string>
-    <string name="rotation_button">Rotation button</string>
     <string name="shutter">Shutter</string>
     <string name="face_detection">Face Detection</string>
     <string name="rotate_camera">Rotate Camera</string>
@@ -15,8 +10,6 @@
     <string name="just_the_logo">Just the logo</string>
     <string name="yaw">Yaw</string>
     <string name="pitch">Pitch</string>
-    <string name="dialog_rotat_height">10dp</string>
-    <string name="dialog_rotat_width">10dp</string>
     <string name="btnPlus">+</string>
     <string name="btnMinus">-</string>
     <string name="maxRot">13</string>
@@ -27,4 +20,5 @@
     <string name="contact">Contact me at 14nwise@debdenparkhighschool.org\n\nAll Rights Reserved</string>
     <string name="ip_port">IP: %1$s\nPort: %2$s</string>
     <string name="version">Version: %1$s</string>
+    <string name="rcpi_logo">RCPI Logo</string>
 </resources>
