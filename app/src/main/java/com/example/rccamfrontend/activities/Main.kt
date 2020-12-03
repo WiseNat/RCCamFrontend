@@ -1,4 +1,4 @@
-package com.example.rccamfrontend
+package com.example.rccamfrontend.activities
 
 import android.app.AlertDialog
 import android.app.DownloadManager
@@ -18,11 +18,15 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
+import com.example.rccamfrontend.R
+import com.example.rccamfrontend.utils.generateSnack
+import com.example.rccamfrontend.utils.generateToast
+import com.example.rccamfrontend.utils.incrementTextView
 import kotlinx.android.synthetic.main.activity_connect.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class Main : AppCompatActivity() {
 
     private var url = ""
 
@@ -62,7 +66,7 @@ class MainActivity : AppCompatActivity() {
                             apply()
                         }
                     } else {
-                        generateToast(this@MainActivity, "Failed to get ID, $id")
+                        generateToast(this@Main, "Failed to get ID, $id")
                     }
                 }
             }
@@ -84,7 +88,7 @@ class MainActivity : AppCompatActivity() {
                 error: WebResourceError
             ) {
                 generateToast(
-                    this@MainActivity,
+                    this@Main,
                     error.description.toString(),
                     dur = Toast.LENGTH_LONG
                 )
@@ -302,7 +306,7 @@ class MainActivity : AppCompatActivity() {
             R.id.about -> {
                 // About clicked
 
-                val aboutIntent = Intent(this, AboutActivity::class.java)
+                val aboutIntent = Intent(this, About::class.java)
                 aboutIntent.putExtra("ip", intent.getStringExtra("ip"))
                 aboutIntent.putExtra("port", intent.getStringExtra("port"))
                 startActivity(aboutIntent)

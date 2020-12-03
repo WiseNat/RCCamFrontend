@@ -1,4 +1,4 @@
-package com.example.rccamfrontend
+package com.example.rccamfrontend.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,10 +8,13 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
+import com.example.rccamfrontend.R
+import com.example.rccamfrontend.utils.generateSnack
+import com.example.rccamfrontend.utils.generateToast
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_connect.*
 
-class ConnectActivity : AppCompatActivity() {
+class Connect : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_connect)
@@ -64,9 +67,9 @@ class ConnectActivity : AppCompatActivity() {
 
                     override fun onPageFinished(view: WebView?, url: String?) { // Go to next activity
                         super.onPageFinished(view, url)
-                        generateToast(this@ConnectActivity, webviewError.toString())
+                        generateToast(this@Connect, webviewError.toString())
                         if (!webviewError){
-                            val intent = Intent(this@ConnectActivity, MainActivity::class.java)
+                            val intent = Intent(this@Connect, Main::class.java)
                             intent.putExtra("ip", textfieldIP.text.toString())
                             intent.putExtra("port", textfieldPort.text.toString())
 

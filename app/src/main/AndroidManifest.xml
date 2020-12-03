@@ -13,11 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AboutActivity" />
-        <activity android:name=".ConnectActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".activities.About" />
+        <activity android:name=".activities.Connect" />
+        <activity android:name=".activities.Main" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".activities.SplashScreen"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

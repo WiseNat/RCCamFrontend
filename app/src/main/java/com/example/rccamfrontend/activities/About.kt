@@ -1,12 +1,14 @@
-package com.example.rccamfrontend
+package com.example.rccamfrontend.activities
 
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.rccamfrontend.BuildConfig
+import com.example.rccamfrontend.R
 
 
-class AboutActivity : AppCompatActivity() {
+class About : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
