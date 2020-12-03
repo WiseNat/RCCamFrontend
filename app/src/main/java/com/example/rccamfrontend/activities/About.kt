@@ -1,7 +1,6 @@
 package com.example.rccamfrontend.activities
 
 import android.os.Bundle
-import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rccamfrontend.BuildConfig
@@ -13,17 +12,19 @@ class About : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
 
-        // Modifying Action Bar
+        // Modifying Action Bar title
         supportActionBar?.title = "About"
 
-        // Modifying Text views
-        val textViewNet = findViewById<View>(R.id.textViewNet) as TextView
-        val textViewVer = findViewById<View>(R.id.textViewVer) as TextView
+        // Getting Text view references
+        val textViewNet = findViewById<TextView>(R.id.textViewNet)
+        val textViewVer = findViewById<TextView>(R.id.textViewVer)
 
+        // Getting IP and Port
         val ip = intent.getStringExtra("ip")
         val port = intent.getStringExtra("port")
-        textViewNet.text = getString(R.string.ip_port, ip, port)
 
+        // Setting text attribute of text views
+        textViewNet.text = getString(R.string.ip_port, ip, port)
         textViewVer.text = getString(R.string.version, BuildConfig.VERSION_NAME)
     }
 }
