@@ -14,14 +14,22 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
+        // Hiding the Action Bar
         supportActionBar?.hide()
 
-        Handler(Looper.getMainLooper()).postDelayed({
+        // Fade when going to the next activity
+        window.exitTransition = Fade()
+
+        // Runnable for "postDelayed"
+        val r = Runnable {
             val intent = Intent(this, Connect::class.java)
+            startActivity(
+                intent,
+                ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
+            )
+        }
 
-            window.exitTransition = Fade()
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
-
-        }, 3000)
+        // Wait 3 seconds and then go to the "Connect" activity
+        Handler(Looper.getMainLooper()).postDelayed(r, 3000)
     }
 }
