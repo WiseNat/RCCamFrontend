@@ -9,6 +9,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rccamfrontend.R
+import com.example.rccamfrontend.utils.Address
 import com.example.rccamfrontend.utils.generateSnack
 import com.example.rccamfrontend.utils.generateToast
 import com.google.android.material.snackbar.Snackbar
@@ -19,55 +20,62 @@ class Connect : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_connect)
 
-        // Modifying Action Bar
+        // Modifying Action Bar Title
         supportActionBar?.title = "Connect to RPI"
 
-        val ipPat = Regex("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])(\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])){3}\$")
+        // Getting view
+        val view = findViewById<View>(R.id.connectConstraint)
 
         btnConnect.setOnClickListener{
-            val ipInput = textfieldIP.text.toString()
-            val portInput = textfieldPort.text.toString().toDoubleOrNull()
+            val ip = textfieldIP.text.toString()
+            val port = textfieldPort.text.toString()
 
-            val ipResult = ipPat.matches(ipInput)
+            // Instantiating User Inputted Address
+            val address = Address(ip, port.toDoubleOrNull())
+
             var nextActivity = true
-            val view = findViewById<View>(R.id.connectConstraint)
 
-            if(ipInput == ""){ // Checking if a value was entered for the IP
+            // IP Logic
+            if (address.hasEmptyIP()) {
                 generateSnack(view, "Enter an IP Address")
                 nextActivity = false
-
-            }else if (!ipResult) { // Checking if IP address is valid
+            } else if (!address.hasValidIP()) {
                 generateSnack(view, "Invalid IP Address")
                 nextActivity = false
             }
 
-            if(portInput == null){ // Checking if a value was entered for the port
+            // Port Logic
+            if (address.hasEmptyPort()) {
                 generateSnack(view, "Enter a Port number")
                 nextActivity = false
-
-            } else if(portInput > 65536){ // Checking if port number is valid
+            } else if (!address.hasValidPort()) {
                 generateSnack(view, "Invalid Port")
                 nextActivity = false
             }
 
-            if (nextActivity){ // Process for Main activity
-
+            // Process for going to Main activity if text view inputs are valid
+            if (nextActivity){
                 var webviewError = false
 
+                // Webview instantiating and overriding
                 val hiddenWebview = findViewById<WebView>(R.id.hiddenWebview)
-                hiddenWebview.webViewClient = object : WebViewClient() { // Webpage failed to load
-                    override fun onReceivedError (view: WebView, request: WebResourceRequest, error: WebResourceError) {
+
+                hiddenWebview.webViewClient = object : WebViewClient() {
+                    override fun onReceivedError(
+                        view: WebView,
+                        request: WebResourceRequest,
+                        error: WebResourceError
+                    ) {
                         generateSnack(
-                            findViewById(R.id.connectConstraint),
+                            view,
                             error.description.toString(),
                             dur = Snackbar.LENGTH_LONG
                         )
                         webviewError = true
                     }
 
-                    override fun onPageFinished(view: WebView?, url: String?) { // Go to next activity
+                    override fun onPageFinished(view: WebView?, url: String?) {
                         super.onPageFinished(view, url)
-                        generateToast(this@Connect, webviewError.toString())
                         if (!webviewError){
                             val intent = Intent(this@Connect, Main::class.java)
                             intent.putExtra("ip", textfieldIP.text.toString())
@@ -78,9 +86,7 @@ class Connect : AppCompatActivity() {
                     }
                 }
 
-                hiddenWebview.loadUrl("http://%s:%s/".format(
-                    textfieldIP.text.toString(),
-                    textfieldPort.text.toString()))
+                hiddenWebview.loadUrl("http://%s:%s/".format(ip, port))
             }
         }
     }

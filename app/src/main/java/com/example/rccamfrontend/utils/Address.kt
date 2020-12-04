@@ -1,6 +1,6 @@
 package com.example.rccamfrontend.utils
 
-class Address(private var ip: String, private var port: Int?) {
+class Address(private var ip: String, private var port: Double?) {
     // Attributes
     private val ipPat = Regex(
         "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])(\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])){3}\$"
@@ -35,7 +35,3 @@ class Address(private var ip: String, private var port: Int?) {
         return false
     }
 }
-
-
-
-
