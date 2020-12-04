@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.rccamfrontend.R
 import com.example.rccamfrontend.utils.Address
 import com.example.rccamfrontend.utils.generateSnack
-import com.example.rccamfrontend.utils.generateToast
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_connect.*
 
