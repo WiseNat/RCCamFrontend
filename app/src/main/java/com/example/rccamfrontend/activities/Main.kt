@@ -27,8 +27,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 
 class Main : AppCompatActivity() {
+    // Address Values
+    private lateinit var url: String
+    private lateinit var ip: String
+    private lateinit var port: String
 
-    private var url = ""
+    // View
+    private lateinit var view: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +42,21 @@ class Main : AppCompatActivity() {
         // Modifying Action Bar
         supportActionBar?.title = ""
 
+        // Getting view
+        view = findViewById(R.id.mainConstraint)
+
+        // Setting Address values and changing URL
+        if (intent != null) {
+            ip = intent.getStringExtra("ip").toString()
+            port = intent.getStringExtra("port").toString()
+
+            url = "http://%s:%s".format(ip, port)
+            webview.loadUrl(url)
+
+            generateSnack(view, "Loaded URL: $ip")
+        }
+
         // Modifying Webview
-        val view = findViewById<View>(R.id.mainConstraint)
         webview.setDownloadListener { thisUrl, _, contentDisposition, mimeType, _ ->
             // Getting filename and new URL
             val filename = URLUtil.guessFileName(thisUrl, contentDisposition, mimeType)
@@ -252,16 +270,6 @@ class Main : AppCompatActivity() {
                 }
             }
             return@setOnNavigationItemSelectedListener true
-        }
-
-        if (intent != null) {
-            url = "http://%s:%s".format(
-                intent.getStringExtra("ip"),
-                intent.getStringExtra("port")
-            )
-            webview.loadUrl(url)
-
-            generateSnack(view, "Loaded URL")
         }
     }
 

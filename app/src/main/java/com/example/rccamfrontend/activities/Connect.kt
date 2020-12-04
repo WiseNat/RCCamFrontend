@@ -19,7 +19,7 @@ class Connect : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_connect)
 
-        // Modifying Action Bar Title
+        // Modifying Action Bar title
         supportActionBar?.title = "Connect to RPI"
 
         // Getting view
