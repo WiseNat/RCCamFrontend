@@ -56,7 +56,7 @@ class Main : AppCompatActivity() {
             generateSnack(view, "Loaded URL: $ip")
         }
 
-        // Modifying Webview
+        // Setting Download Manager
         webview.setDownloadListener { thisUrl, _, contentDisposition, mimeType, _ ->
             // Getting filename and new URL
             val filename = URLUtil.guessFileName(thisUrl, contentDisposition, mimeType)
@@ -88,7 +88,6 @@ class Main : AppCompatActivity() {
                     }
                 }
             }
-
             registerReceiver(
                 onDownloadComplete,
                 IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
@@ -246,18 +245,20 @@ class Main : AppCompatActivity() {
                             val textfieldPitchData = textfieldPitch.text.toString()
                             val textfieldYawData = textfieldYaw.text.toString()
 
-                            // <ip>/servo?p=int&y=int
-                            // URL Arg Logic
+                            // URL Arg Logic <ip>/servo?p=int&y=int
                             var servoUrl = ""
 
-                            if (textfieldPitchData != "") { // Pitch arg supplied
+                            // Pitch arg supplied
+                            if (textfieldPitchData != "") {
                                 servoUrl += "p=$textfieldPitchData&"
                             }
 
-                            if (textfieldYawData != "") { // Yaw arg supplied
+                            // Yaw arg supplied
+                            if (textfieldYawData != "") {
                                 servoUrl += "y=$textfieldYawData"
                             }
 
+                            // Yaw and/or Pitch args supplied
                             if (servoUrl != "") {
                                 webview.loadUrl("$url/servo?$servoUrl")
                             }
@@ -299,7 +300,7 @@ class Main : AppCompatActivity() {
 
                     if (imagePath == "") {
                         generateSnack(
-                            findViewById(R.id.mainConstraint),
+                            view,
                             "You haven't got a recent photo to share yet",
                             anch = bottomNavigationBar
                         )
@@ -315,8 +316,8 @@ class Main : AppCompatActivity() {
                 // About clicked
 
                 val aboutIntent = Intent(this, About::class.java)
-                aboutIntent.putExtra("ip", intent.getStringExtra("ip"))
-                aboutIntent.putExtra("port", intent.getStringExtra("port"))
+                aboutIntent.putExtra("ip", ip)
+                aboutIntent.putExtra("port", port)
                 startActivity(aboutIntent)
             }
         }
