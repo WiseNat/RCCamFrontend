@@ -22,6 +22,7 @@ import com.example.rccamfrontend.R
 import com.example.rccamfrontend.utils.generateSnack
 import com.example.rccamfrontend.utils.generateToast
 import com.example.rccamfrontend.utils.incrementTextView
+import com.example.rccamfrontend.views.IncrementableTextView
 import kotlinx.android.synthetic.main.activity_connect.*
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -58,12 +59,11 @@ class Main : AppCompatActivity() {
 
         // Setting Download Manager
         webview.setDownloadListener { thisUrl, _, contentDisposition, mimeType, _ ->
-            // Getting filename and new URL
+            // Getting filename
             val filename = URLUtil.guessFileName(thisUrl, contentDisposition, mimeType)
-            val newUrl = "$url/get_photo/$filename"
 
             // Setting up Download Request Manager
-            val request = DownloadManager.Request(Uri.parse(newUrl))
+            val request = DownloadManager.Request(Uri.parse("$url/get_photo/$filename"))
             request
                 .setTitle(filename)
                 .setDescription("Taken from RPI")
@@ -184,66 +184,15 @@ class Main : AppCompatActivity() {
                         false
                     )
 
-                    // Getting textfields
-                    val textfieldYaw = dialogView.findViewById<EditText>(R.id.textfieldYaw)
-                    val textfieldPitch = dialogView.findViewById<EditText>(R.id.textfieldPitch)
-
-                    // Getting incrementation and decrementation buttons
-                    val btnYawPlus = dialogView.findViewById<Button>(R.id.btnYawPlus)
-                    val btnYawMinus = dialogView.findViewById<Button>(R.id.btnYawMinus)
-                    val btnPitchPlus = dialogView.findViewById<Button>(R.id.btnPitchPlus)
-                    val btnPitchMinus = dialogView.findViewById<Button>(R.id.btnPitchMinus)
-
-
-                    // Setting value limit for text views
-                    textfieldPitch.doOnTextChanged { text, _, _, _ ->
-                        val textInt = text.toString().toIntOrNull()
-                        if (textInt != null) {
-                            if (textInt > 13) {
-                                textfieldYaw.setText(getString(R.string.maxRot))
-                            } else if (textInt < 0) {
-                                textfieldYaw.setText("0")
-                            }
-                        }
-                        textfieldPitch.setSelection(textfieldPitch.text.length)
-                    }
-
-                    textfieldYaw.doOnTextChanged { text, _, _, _ ->
-                        val textInt = text.toString().toIntOrNull()
-                        if (textInt != null) {
-                            if (textInt > 13) {
-                                textfieldYaw.setText(getString(R.string.maxRot))
-                            } else if (textInt < 0) {
-                                textfieldYaw.setText("0")
-                            }
-                        }
-                        textfieldYaw.setSelection(textfieldYaw.text.length)
-                    }
-
-
-                    // Setting onClick actions for inc/dec buttons
-                    btnYawPlus.setOnClickListener {  // Increment btnYaw
-                        incrementTextView(textfieldYaw, 1)
-                    }
-
-                    btnYawMinus.setOnClickListener {  // Decrement btnYaw
-                        incrementTextView(textfieldYaw, -1)
-                    }
-
-                    btnPitchPlus.setOnClickListener {  // Increment btnPitch
-                        incrementTextView(textfieldPitch, 1)
-                    }
-
-                    btnPitchMinus.setOnClickListener {  // Decrement btnPitch
-                        incrementTextView(textfieldPitch, -1)
-                    }
-
                     dialog
                         .setTitle("Set Rotation")
                         .setView(dialogView)
                         .setPositiveButton("Confirm") { _, _ ->
-                            val textfieldPitchData = textfieldPitch.text.toString()
-                            val textfieldYawData = textfieldYaw.text.toString()
+                            val textfieldYaw = findViewById<IncrementableTextView>(R.id.yawIncTextView)
+                            val textfieldPitch = findViewById<IncrementableTextView>(R.id.pitchIncTextView)
+
+                            val textfieldPitchData = textfieldPitch.textView.text.toString()
+                            val textfieldYawData = textfieldYaw.textView.text.toString()
 
                             // URL Arg Logic <ip>/servo?p=int&y=int
                             var servoUrl = ""

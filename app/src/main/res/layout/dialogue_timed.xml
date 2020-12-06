@@ -22,7 +22,7 @@
             android:minWidth="0dp"
             android:paddingStart="0dp"
             android:paddingEnd="0dp"
-            android:text="@string/btnMinus" />
+            android:text="@string/button_minus" />
 
         <Button
             android:id="@+id/btnTimePlus"
@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/btnPlus" />
+            android:text="@string/button_plus" />
 
         <EditText
             android:id="@+id/textfieldTime"

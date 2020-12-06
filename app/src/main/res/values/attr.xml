@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="IncrementableTextView">
+        <attr name="maxVal" format="integer" />
+        <attr name="minVal" format="integer" />
+        <attr name="incVal" format="integer" />
+        <attr name="decVal" format="integer" />
+        <attr name="text" format="string" />
+        <attr name="maxLength" format="integer" />
+    </declare-styleable>
+</resources>

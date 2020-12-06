@@ -8,11 +8,8 @@
     <string name="rotate_camera">Rotate Camera</string>
     <string name="rcpi_cam">RCPI Cam</string>
     <string name="just_the_logo">Just the logo</string>
-    <string name="yaw">Yaw</string>
-    <string name="pitch">Pitch</string>
-    <string name="btnPlus">+</string>
-    <string name="btnMinus">-</string>
-    <string name="maxRot">13</string>
+    <string name="button_plus">+</string>
+    <string name="button_minus">-</string>
     <string name="seconds">Seconds</string>
     <string name="share_latest_photo">Share Latest Photo</string>
     <string name="open_photo_gallery">Open Photo Gallery</string>
@@ -21,4 +18,5 @@
     <string name="ip_port">IP: %1$s\nPort: %2$s</string>
     <string name="version">Version: %1$s</string>
     <string name="rcpi_logo">RCPI Logo</string>
+    <string name="add_text_attribute">Add text attribute</string>
 </resources>
