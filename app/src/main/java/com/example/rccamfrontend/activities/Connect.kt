@@ -32,24 +32,19 @@ class Connect : AppCompatActivity() {
             // Instantiating User Inputted Address
             val address = Address(ip, port.toDoubleOrNull())
 
-            var nextActivity = true
+            var nextActivity = false
 
-            // IP Logic
+            // Address logic
             if (address.hasEmptyIP()) {
                 generateSnack(view, "Enter an IP Address")
-                nextActivity = false
             } else if (!address.hasValidIP()) {
                 generateSnack(view, "Invalid IP Address")
-                nextActivity = false
-            }
-
-            // Port Logic
-            if (address.hasEmptyPort()) {
+            } else if (address.hasEmptyPort()) {
                 generateSnack(view, "Enter a Port number")
-                nextActivity = false
             } else if (!address.hasValidPort()) {
                 generateSnack(view, "Invalid Port")
-                nextActivity = false
+            } else {
+                nextActivity = true
             }
 
             // Process for going to Main activity if text view inputs are valid

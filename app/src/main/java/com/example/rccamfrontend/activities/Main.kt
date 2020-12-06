@@ -281,19 +281,17 @@ class Main : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
+            // Open Photo Gallery Clicked
             R.id.open_photo_gallery -> {
-                // Open Photo Gallery Clicked
-
-                val intent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("content://media/internal/images/media")
-                )
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+                val mediaUri = Uri.parse("content://media/internal/images/media")
+                with(Intent(Intent.ACTION_VIEW, mediaUri)){
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(this)
+                }
             }
-            R.id.share -> {
-                // Share Media Clicked
 
+            // Share Media Clicked
+            R.id.share -> {
                 with(Intent(Intent.ACTION_SEND)) {
                     val sharedPref = getPreferences(Context.MODE_PRIVATE)
                     val imagePath = sharedPref.getString("URI", "")
@@ -312,13 +310,14 @@ class Main : AppCompatActivity() {
                     }
                 }
             }
-            R.id.about -> {
-                // About clicked
 
-                val aboutIntent = Intent(this, About::class.java)
-                aboutIntent.putExtra("ip", ip)
-                aboutIntent.putExtra("port", port)
-                startActivity(aboutIntent)
+            // About clicked
+            R.id.about -> {
+                with(Intent(this, About::class.java)) {
+                    putExtra("ip", ip)
+                    putExtra("port", port)
+                    startActivity(this)
+                }
             }
         }
         return super.onOptionsItemSelected(item)
