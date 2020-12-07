@@ -162,25 +162,7 @@ class Main : AppCompatActivity() {
                         .setPositiveButton("Confirm") { _, _ ->
                             val pitchVal = dialogView.yawIncTextView.textView.text.toString()
                             val yawVal = dialogView.pitchIncTextView.textView.text.toString()
-
-                            // URL Arg Logic <ip>/servo?p=int&y=int
-                            var servoUrl = ""
-
-                            // Pitch arg supplied
-                            if (pitchVal != "") {
-                                servoUrl += "p=$pitchVal&"
-                            }
-
-                            // Yaw arg supplied
-                            if (yawVal != "") {
-                                servoUrl += "y=$yawVal"
-                            }
-
-                            // Yaw and/or Pitch args supplied
-                            if (servoUrl != "") {
-                                webview.loadUrl("$url/servo?$servoUrl")
-                            }
-
+                            webview.loadUrl("$url/servo?p=$pitchVal&y=$yawVal")
                         }
                         .setNegativeButton("Cancel") { _, _ ->
                             // Do nothing - Android auto dismisses
