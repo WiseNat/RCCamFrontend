@@ -1,50 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <LinearLayout
+    <com.example.rccamfrontend.views.IncrementableTextView
+        android:id="@+id/secIncTextView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="5dp"
-        tools:ignore="UselessParent">
-
-        <Button
-            android:id="@+id/btnTimeMinus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minWidth="0dp"
-            android:paddingStart="0dp"
-            android:paddingEnd="0dp"
-            android:text="@string/button_minus" />
-
-        <Button
-            android:id="@+id/btnTimePlus"
-            android:minWidth="0dp"
-            android:paddingStart="0dp"
-            android:paddingEnd="0dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/button_plus" />
-
-        <EditText
-            android:id="@+id/textfieldTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:fontFamily="sans-serif"
-            android:hint="@string/seconds"
-            android:importantForAutofill="no"
-            android:inputType="number"
-            android:maxLength="2" />
-
-    </LinearLayout>
+        custom:minVal="0"
+        custom:maxLength="8"
+        custom:text="Seconds" />
 
 </LinearLayout>

@@ -13,18 +13,15 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.webkit.*
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.doOnTextChanged
 import com.example.rccamfrontend.R
 import com.example.rccamfrontend.utils.generateSnack
 import com.example.rccamfrontend.utils.generateToast
-import com.example.rccamfrontend.utils.incrementTextView
 import kotlinx.android.synthetic.main.activity_connect.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialogue_rotation.view.*
+import kotlinx.android.synthetic.main.dialogue_timed.view.*
 
 
 class Main : AppCompatActivity() {
@@ -119,35 +116,11 @@ class Main : AppCompatActivity() {
                 false
             )
 
-            // Getting textfield and buttons
-            val textfieldTime = dialogView.findViewById<EditText>(R.id.textfieldTime)
-            val btnTimePlus = dialogView.findViewById<Button>(R.id.btnTimePlus)
-            val btnTimeMinus = dialogView.findViewById<Button>(R.id.btnTimeMinus)
-
-
-            // Setting value limit for text views
-            textfieldTime.doOnTextChanged { text, _, _, _ ->
-                val textInt = text.toString().toIntOrNull()
-                if (textInt != null && textInt < 0) {
-                    textfieldTime.setText("0")
-                }
-                textfieldTime.setSelection(textfieldTime.text.length)
-            }
-
-            // Setting onClick actions for inc/dec buttons
-            btnTimePlus.setOnClickListener {  // Increment btnYaw
-                incrementTextView(textfieldTime, 1)
-            }
-
-            btnTimeMinus.setOnClickListener {  // Decrement btnYaw
-                incrementTextView(textfieldTime, -1)
-            }
-
             dialog
                 .setTitle("Choose Time to Wait")
                 .setView(dialogView)
                 .setPositiveButton("Confirm") { _, _ ->
-                    val textfieldTimeData = textfieldTime.text.toString()
+                    val textfieldTimeData = dialogView.secIncTextView.textView.text.toString()
 
                     // <ip>/take_photo/float
                     webview.loadUrl("$url/take_photo/$textfieldTimeData")
