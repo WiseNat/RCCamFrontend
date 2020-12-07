@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rccamfrontend.BuildConfig
 import com.example.rccamfrontend.R
+import kotlinx.android.synthetic.main.activity_about.*
 
 
 class About : AppCompatActivity() {
@@ -14,10 +15,6 @@ class About : AppCompatActivity() {
 
         // Modifying Action Bar title
         supportActionBar?.title = "About"
-
-        // Getting Text view references
-        val textViewNet = findViewById<TextView>(R.id.textViewNet)
-        val textViewVer = findViewById<TextView>(R.id.textViewVer)
 
         // Getting IP and Port
         val ip = intent.getStringExtra("ip")

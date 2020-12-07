@@ -22,9 +22,9 @@ import com.example.rccamfrontend.R
 import com.example.rccamfrontend.utils.generateSnack
 import com.example.rccamfrontend.utils.generateToast
 import com.example.rccamfrontend.utils.incrementTextView
-import com.example.rccamfrontend.views.IncrementableTextView
 import kotlinx.android.synthetic.main.activity_connect.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialogue_rotation.view.*
 
 
 class Main : AppCompatActivity() {
@@ -44,7 +44,7 @@ class Main : AppCompatActivity() {
         supportActionBar?.title = ""
 
         // Getting view
-        view = findViewById(R.id.mainConstraint)
+        view = mainConstraint
 
         // Setting Address values and changing URL
         if (intent != null) {
@@ -111,7 +111,6 @@ class Main : AppCompatActivity() {
                 )
             }
         }
-
         bottomNavigationBar.findViewById<View>(R.id.action_shutter).setOnLongClickListener{
             val dialog = AlertDialog.Builder(this)
             val dialogView = this.layoutInflater.inflate(
@@ -188,23 +187,20 @@ class Main : AppCompatActivity() {
                         .setTitle("Set Rotation")
                         .setView(dialogView)
                         .setPositiveButton("Confirm") { _, _ ->
-                            val textfieldYaw = findViewById<IncrementableTextView>(R.id.yawIncTextView)
-                            val textfieldPitch = findViewById<IncrementableTextView>(R.id.pitchIncTextView)
-
-                            val textfieldPitchData = textfieldPitch.textView.text.toString()
-                            val textfieldYawData = textfieldYaw.textView.text.toString()
+                            val pitchVal = dialogView.yawIncTextView.textView.text.toString()
+                            val yawVal = dialogView.pitchIncTextView.textView.text.toString()
 
                             // URL Arg Logic <ip>/servo?p=int&y=int
                             var servoUrl = ""
 
                             // Pitch arg supplied
-                            if (textfieldPitchData != "") {
-                                servoUrl += "p=$textfieldPitchData&"
+                            if (pitchVal != "") {
+                                servoUrl += "p=$pitchVal&"
                             }
 
                             // Yaw arg supplied
-                            if (textfieldYawData != "") {
-                                servoUrl += "y=$textfieldYawData"
+                            if (yawVal != "") {
+                                servoUrl += "y=$yawVal"
                             }
 
                             // Yaw and/or Pitch args supplied

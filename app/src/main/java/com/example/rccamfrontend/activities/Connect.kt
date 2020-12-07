@@ -23,7 +23,7 @@ class Connect : AppCompatActivity() {
         supportActionBar?.title = "Connect to RPI"
 
         // Getting view
-        val view = findViewById<View>(R.id.connectConstraint)
+        val view = connectConstraint
 
         btnConnect.setOnClickListener{
             val ip = textfieldIP.text.toString()
@@ -52,8 +52,6 @@ class Connect : AppCompatActivity() {
                 var webviewError = false
 
                 // Webview instantiating and overriding
-                val hiddenWebview = findViewById<WebView>(R.id.hiddenWebview)
-
                 hiddenWebview.webViewClient = object : WebViewClient() {
                     override fun onReceivedError(
                         view: WebView,
