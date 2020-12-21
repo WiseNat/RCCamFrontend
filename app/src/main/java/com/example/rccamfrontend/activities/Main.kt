@@ -51,7 +51,7 @@ class Main : AppCompatActivity() {
             url = "http://%s:%s".format(ip, port)
             webview.loadUrl(url)
 
-            generateSnack(view, "Loaded URL: $ip")
+            generateSnack(view, "Loaded URL: $ip", anch = bottomNavigationBar)
         }
 
         // Setting Download Manager
@@ -90,7 +90,7 @@ class Main : AppCompatActivity() {
                 IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
             )
 
-            generateSnack(view, filename)
+            generateSnack(view, filename, anch = bottomNavigationBar)
 
         }
 
@@ -145,8 +145,6 @@ class Main : AppCompatActivity() {
                     // Setting up Download Request Manager
                     val shutterURL = "$url/take_photo"
                     webview.loadUrl(shutterURL)
-
-                    // generateSnack(view, "Taken photo", anch = bottomNavigationBar)
                 }
                 R.id.action_rotation -> {
                     val dialog = AlertDialog.Builder(this)
