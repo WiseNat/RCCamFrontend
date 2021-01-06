@@ -6,6 +6,7 @@
         <item name="colorPrimaryDark">@color/midnightBlue</item>
         <item name="colorAccent">@color/white</item>
         <item name="android:windowBackground">@color/spaceBlue</item>
+        <item name="android:alertDialogTheme">@style/Dialog</item>
 
         <!-- Default Control Colours -->
         <item name="colorControlNormal">@color/navy</item>
@@ -26,4 +27,11 @@
         <item name="android:textSize">35sp</item>
     </style>
 
+    <!-- Action Dialog -->
+    <style name="Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/spaceBlue</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:editTextColor">@color/lightGray</item>
+    </style>
 </resources>
