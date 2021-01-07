@@ -29,7 +29,7 @@ class Address(private var ip: String, private var port: Double?) {
 
     // Returns true if the Port arg supplied was valid, else false
     fun hasValidPort(): Boolean {
-        if (port?.let { it > 65536 } == false) {
+        if (port?.let { it > 65535 } == false) {
             return true
         }
         return false
