@@ -1,10 +1,37 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/spaceBlue</item>
+        <!-- App Body Colours -->
+        <item name="colorPrimary">@color/midnightBlue</item>
         <item name="colorPrimaryDark">@color/midnightBlue</item>
-        <item name="colorAccent">@color/gray</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="android:windowBackground">@color/spaceBlue</item>
+        <item name="android:alertDialogTheme">@style/Dialog</item>
+
+        <!-- Default Control Colours -->
+        <item name="colorControlNormal">@color/navy</item>
+        <item name="colorControlActivated">@color/white</item>
+
+        <!-- Text Related -->
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorHint">@color/lightGray</item>
+
+        <!-- Button Related -->
+        <item name="android:colorButtonNormal">@color/slateBlue</item>
     </style>
 
+    <!-- Action Bar -->
+    <style name="TextAppearance.AppCompat.Widget.ActionBar.Title" parent="@android:style/TextAppearance" tools:keep="@style/TextAppearance_AppCompat_Widget_ActionBar_Title">
+        <item name="android:fontFamily">@font/agencyr</item>
+        <item name="android:textSize">35sp</item>
+    </style>
+
+    <!-- Action Dialog -->
+    <style name="Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/spaceBlue</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:editTextColor">@color/lightGray</item>
+    </style>
 </resources>

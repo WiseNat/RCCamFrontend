@@ -5,7 +5,7 @@
     android:id="@+id/connectConstraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ConnectActivity">
+    tools:context=".activities.Connect">
 
     <EditText
         android:id="@+id/textfieldPort"

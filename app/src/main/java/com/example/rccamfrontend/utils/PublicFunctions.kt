@@ -1,4 +1,4 @@
-package com.example.rccamfrontend
+package com.example.rccamfrontend.utils
 
 import android.app.Activity
 import android.view.View

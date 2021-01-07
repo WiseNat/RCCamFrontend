@@ -1,4 +1,4 @@
-package com.example.rccamfrontend
+package com.example.rccamfrontend.activities
 
 import android.app.AlertDialog
 import android.app.DownloadManager
@@ -13,17 +13,25 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.webkit.*
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.doOnTextChanged
+import com.example.rccamfrontend.R
+import com.example.rccamfrontend.utils.generateSnack
+import com.example.rccamfrontend.utils.generateToast
+import kotlinx.android.synthetic.main.activity_connect.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialogue_rotation.view.*
+import kotlinx.android.synthetic.main.dialogue_timed.view.*
 
 
-class MainActivity : AppCompatActivity() {
+class Main : AppCompatActivity() {
+    // Address Values
+    private lateinit var url: String
+    private lateinit var ip: String
+    private lateinit var port: String
 
-    var url = ""
+    // View
+    private lateinit var view: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,15 +40,27 @@ class MainActivity : AppCompatActivity() {
         // Modifying Action Bar
         supportActionBar?.title = ""
 
-        // Modifying Webview
-        val view = findViewById<View>(R.id.mainConstraint)
+        // Getting view
+        view = mainConstraint
+
+        // Setting Address values and changing URL
+        if (intent != null) {
+            ip = intent.getStringExtra("ip").toString()
+            port = intent.getStringExtra("port").toString()
+
+            url = "http://%s:%s".format(ip, port)
+            webview.loadUrl(url)
+
+            generateSnack(view, "Loaded URL: $ip", anch = bottomNavigationBar)
+        }
+
+        // Setting Download Manager
         webview.setDownloadListener { thisUrl, _, contentDisposition, mimeType, _ ->
-            // Getting filename and new URL
+            // Getting filename
             val filename = URLUtil.guessFileName(thisUrl, contentDisposition, mimeType)
-            val newUrl = "$url/get_photo/$filename"
 
             // Setting up Download Request Manager
-            val request = DownloadManager.Request(Uri.parse(newUrl))
+            val request = DownloadManager.Request(Uri.parse("$url/get_photo/$filename"))
             request
                 .setTitle(filename)
                 .setDescription("Taken from RPI")
@@ -61,17 +81,16 @@ class MainActivity : AppCompatActivity() {
                             apply()
                         }
                     } else {
-                        generateToast(this@MainActivity, "Failed to get ID, $id")
+                        generateToast(this@Main, "Failed to get ID, $id")
                     }
                 }
             }
-
             registerReceiver(
                 onDownloadComplete,
                 IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
             )
 
-            generateSnack(view, filename)
+            generateSnack(view, filename, anch = bottomNavigationBar)
 
         }
 
@@ -83,14 +102,13 @@ class MainActivity : AppCompatActivity() {
                 error: WebResourceError
             ) {
                 generateToast(
-                    this@MainActivity,
+                    this@Main,
                     error.description.toString(),
                     dur = Toast.LENGTH_LONG
                 )
             }
         }
-
-        bottomNavigationBar.findViewById<View>(R.id.action_shutter).setOnLongClickListener{ _ ->
+        bottomNavigationBar.findViewById<View>(R.id.action_shutter).setOnLongClickListener{
             val dialog = AlertDialog.Builder(this)
             val dialogView = this.layoutInflater.inflate(
                 R.layout.dialogue_timed,
@@ -98,35 +116,11 @@ class MainActivity : AppCompatActivity() {
                 false
             )
 
-            // Getting textfield and buttons
-            val textfieldTime = dialogView.findViewById<EditText>(R.id.textfieldTime)
-            val btnTimePlus = dialogView.findViewById<Button>(R.id.btnTimePlus)
-            val btnTimeMinus = dialogView.findViewById<Button>(R.id.btnTimeMinus)
-
-
-            // Setting value limit for text views
-            textfieldTime.doOnTextChanged { text, _, _, _ ->
-                val textInt = text.toString().toIntOrNull()
-                if (textInt != null && textInt < 0) {
-                    textfieldTime.setText("0")
-                }
-                textfieldTime.setSelection(textfieldTime.text.length)
-            }
-
-            // Setting onClick actions for inc/dec buttons
-            btnTimePlus.setOnClickListener {  // Increment btnYaw
-                incrementTextView(textfieldTime, 1)
-            }
-
-            btnTimeMinus.setOnClickListener {  // Decrement btnYaw
-                incrementTextView(textfieldTime, -1)
-            }
-
             dialog
                 .setTitle("Choose Time to Wait")
                 .setView(dialogView)
                 .setPositiveButton("Confirm") { _, _ ->
-                    val textfieldTimeData = textfieldTime.text.toString()
+                    val textfieldTimeData = dialogView.secIncTextView.textView.text.toString()
 
                     // <ip>/take_photo/float
                     webview.loadUrl("$url/take_photo/$textfieldTimeData")
@@ -151,8 +145,6 @@ class MainActivity : AppCompatActivity() {
                     // Setting up Download Request Manager
                     val shutterURL = "$url/take_photo"
                     webview.loadUrl(shutterURL)
-
-                    // generateSnack(view, "Taken photo", anch = bottomNavigationBar)
                 }
                 R.id.action_rotation -> {
                     val dialog = AlertDialog.Builder(this)
@@ -162,83 +154,13 @@ class MainActivity : AppCompatActivity() {
                         false
                     )
 
-                    // Getting textfields
-                    val textfieldYaw = dialogView.findViewById<EditText>(R.id.textfieldYaw)
-                    val textfieldPitch = dialogView.findViewById<EditText>(R.id.textfieldPitch)
-
-                    // Getting incrementation and decrementation buttons
-                    val btnYawPlus = dialogView.findViewById<Button>(R.id.btnYawPlus)
-                    val btnYawMinus = dialogView.findViewById<Button>(R.id.btnYawMinus)
-                    val btnPitchPlus = dialogView.findViewById<Button>(R.id.btnPitchPlus)
-                    val btnPitchMinus = dialogView.findViewById<Button>(R.id.btnPitchMinus)
-
-
-                    // Setting value limit for text views
-                    textfieldPitch.doOnTextChanged { text, _, _, _ ->
-                        val textInt = text.toString().toIntOrNull()
-                        if (textInt != null) {
-                            if (textInt > 13) {
-                                textfieldYaw.setText(getString(R.string.maxRot))
-                            } else if (textInt < 0) {
-                                textfieldYaw.setText("0")
-                            }
-                        }
-                        textfieldPitch.setSelection(textfieldPitch.text.length)
-                    }
-
-                    textfieldYaw.doOnTextChanged { text, _, _, _ ->
-                        val textInt = text.toString().toIntOrNull()
-                        if (textInt != null) {
-                            if (textInt > 13) {
-                                textfieldYaw.setText(getString(R.string.maxRot))
-                            } else if (textInt < 0) {
-                                textfieldYaw.setText("0")
-                            }
-                        }
-                        textfieldYaw.setSelection(textfieldYaw.text.length)
-                    }
-
-
-                    // Setting onClick actions for inc/dec buttons
-                    btnYawPlus.setOnClickListener {  // Increment btnYaw
-                        incrementTextView(textfieldYaw, 1)
-                    }
-
-                    btnYawMinus.setOnClickListener {  // Decrement btnYaw
-                        incrementTextView(textfieldYaw, -1)
-                    }
-
-                    btnPitchPlus.setOnClickListener {  // Increment btnPitch
-                        incrementTextView(textfieldPitch, 1)
-                    }
-
-                    btnPitchMinus.setOnClickListener {  // Decrement btnPitch
-                        incrementTextView(textfieldPitch, -1)
-                    }
-
                     dialog
                         .setTitle("Set Rotation")
                         .setView(dialogView)
                         .setPositiveButton("Confirm") { _, _ ->
-                            val textfieldPitchData = textfieldPitch.text.toString()
-                            val textfieldYawData = textfieldYaw.text.toString()
-
-                            // <ip>/servo?p=int&y=int
-                            // URL Arg Logic
-                            var servoUrl = ""
-
-                            if (textfieldPitchData != "") { // Pitch arg supplied
-                                servoUrl += "p=$textfieldPitchData&"
-                            }
-
-                            if (textfieldYawData != "") { // Yaw arg supplied
-                                servoUrl += "y=$textfieldYawData"
-                            }
-
-                            if (servoUrl != "") {
-                                webview.loadUrl("$url/servo?$servoUrl")
-                            }
-
+                            val pitchVal = dialogView.yawIncTextView.textView.text.toString()
+                            val yawVal = dialogView.pitchIncTextView.textView.text.toString()
+                            webview.loadUrl("$url/servo?p=$pitchVal&y=$yawVal")
                         }
                         .setNegativeButton("Cancel") { _, _ ->
                             // Do nothing - Android auto dismisses
@@ -247,16 +169,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             return@setOnNavigationItemSelectedListener true
-        }
-
-        if (intent != null) {
-            url = "http://%s:%s".format(
-                intent.getStringExtra("ip"),
-                intent.getStringExtra("port")
-            )
-            webview.loadUrl(url)
-
-            generateSnack(view, "Loaded URL")
         }
     }
 
@@ -267,19 +179,24 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
+            // Open Photo Gallery Clicked
             R.id.open_photo_gallery -> {
-                // Open Photo Gallery Clicked
+                val mediaUri = Uri.parse("content://media/internal/images/media")
+                with(Intent(Intent.ACTION_VIEW, mediaUri)){
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(this)
+                }
             }
-            R.id.share -> {
-                // Share Media Clicked
 
-                with(Intent(Intent.ACTION_SEND)){
+            // Share Media Clicked
+            R.id.share -> {
+                with(Intent(Intent.ACTION_SEND)) {
                     val sharedPref = getPreferences(Context.MODE_PRIVATE)
                     val imagePath = sharedPref.getString("URI", "")
 
-                    if (imagePath == ""){
+                    if (imagePath == "") {
                         generateSnack(
-                            findViewById(R.id.mainConstraint),
+                            view,
                             "You haven't got a recent photo to share yet",
                             anch = bottomNavigationBar
                         )
@@ -291,11 +208,16 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+
+            // About clicked
             R.id.about -> {
-                // About clicked
+                with(Intent(this, About::class.java)) {
+                    putExtra("ip", ip)
+                    putExtra("port", port)
+                    startActivity(this)
+                }
             }
         }
         return super.onOptionsItemSelected(item)
     }
 }
-
