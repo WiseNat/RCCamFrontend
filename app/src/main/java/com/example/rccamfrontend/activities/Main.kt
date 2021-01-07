@@ -158,8 +158,8 @@ class Main : AppCompatActivity() {
                         .setTitle("Set Rotation")
                         .setView(dialogView)
                         .setPositiveButton("Confirm") { _, _ ->
-                            val pitchVal = dialogView.yawIncTextView.textView.text.toString()
-                            val yawVal = dialogView.pitchIncTextView.textView.text.toString()
+                            val pitchVal = dialogView.pitchIncTextView.textView.text.toString()
+                            val yawVal = dialogView.yawIncTextView.textView.text.toString()
                             webview.loadUrl("$url/servo?p=$pitchVal&y=$yawVal")
                         }
                         .setNegativeButton("Cancel") { _, _ ->
