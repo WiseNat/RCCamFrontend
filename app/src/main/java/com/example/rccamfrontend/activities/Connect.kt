@@ -58,39 +58,22 @@ class Connect : AppCompatActivity() {
             }
 
             if (!nextActivity){  // Invalid textfield entries
-                generateSnack(view, message.capitalize(Locale.ROOT), dur = Snackbar.LENGTH_LONG)
+                generateSnack(view, message, dur = Snackbar.LENGTH_LONG)
             } else {  // Process for going to Main activity if text view inputs are valid
-                var webviewError = false
-
                 // Webview instantiating and overriding
                 hiddenWebview.webViewClient = object : WebViewClient() {
-                    override fun onReceivedError(
-                        view: WebView,
-                        request: WebResourceRequest,
-                        error: WebResourceError
-                    ) {
-                        generateSnack(
-                            view,
-                            error.description.toString(),
-                            dur = Snackbar.LENGTH_LONG
-                        )
-                        webviewError = true
-                    }
-
                     override fun onPageFinished(view: WebView?, url: String?) {
                         super.onPageFinished(view, url)
-                        if (!webviewError){
-                            val intent = Intent(this@Connect, Main::class.java)
-                            intent.putExtra("ip", textfieldIP.text.toString())
-                            intent.putExtra("port", textfieldPort.text.toString())
+                        val intent = Intent(this@Connect, Main::class.java)
+                        intent.putExtra("ip", textfieldIP.text.toString())
+                        intent.putExtra("port", textfieldPort.text.toString())
 
-                            startActivity(intent)
-                        }
+                        startActivity(intent)
                     }
                 }
-
-                hiddenWebview.loadUrl("http://%s:%s/".format(ip, port))
             }
+
+            hiddenWebview.loadUrl("http://%s:%s/".format(ip, port))
         }
     }
 }
