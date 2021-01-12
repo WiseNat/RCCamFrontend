@@ -43,6 +43,10 @@ class Main : AppCompatActivity() {
         // Getting view
         view = mainConstraint
 
+        //Webview cache control
+        webview.clearCache(true)
+        webview.settings.cacheMode = WebSettings.LOAD_NO_CACHE
+
         // Setting Address values and changing URL
         if (intent != null) {
             ip = intent.getStringExtra("ip").toString()
@@ -76,10 +80,14 @@ class Main : AppCompatActivity() {
                     if (id != -1L) {
                         // File received
                         val uri = manager.getUriForDownloadedFile(id)
-                        with(getPreferences(Context.MODE_PRIVATE).edit()){
-                            putString("URI", uri.toString())
-                            apply()
+
+                        if (uri != null){
+                            with(getPreferences(Context.MODE_PRIVATE).edit()){
+                                putString("URI", uri.toString())
+                                apply()
+                            }
                         }
+
                     } else {
                         generateToast(this@Main, "Failed to get ID, $id")
                     }
@@ -158,8 +166,8 @@ class Main : AppCompatActivity() {
                         .setTitle("Set Rotation")
                         .setView(dialogView)
                         .setPositiveButton("Confirm") { _, _ ->
-                            val pitchVal = dialogView.yawIncTextView.textView.text.toString()
-                            val yawVal = dialogView.pitchIncTextView.textView.text.toString()
+                            val pitchVal = dialogView.pitchIncTextView.textView.text.toString()
+                            val yawVal = dialogView.yawIncTextView.textView.text.toString()
                             webview.loadUrl("$url/servo?p=$pitchVal&y=$yawVal")
                         }
                         .setNegativeButton("Cancel") { _, _ ->

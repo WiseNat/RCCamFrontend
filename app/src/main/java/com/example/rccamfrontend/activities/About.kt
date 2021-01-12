@@ -16,11 +16,26 @@ class About : AppCompatActivity() {
         supportActionBar?.title = "About"
 
         // Getting IP and Port
-        val ip = intent.getStringExtra("ip")
-        val port = intent.getStringExtra("port")
+        var ip: String? = intent.getStringExtra("ip")
+        var port: String? = intent.getStringExtra("port")
+
+        if (ip == null){
+           ip = "Unknown"
+        }
+
+        if (port == null){
+            port = "Unknown"
+        }
+
+        // Getting Version
+        var build = BuildConfig.VERSION_NAME
+
+        if (build == ""){
+            build = "XX.XX.XX"
+        }
 
         // Setting text attribute of text views
         textViewNet.text = getString(R.string.ip_port, ip, port)
-        textViewVer.text = getString(R.string.version, BuildConfig.VERSION_NAME)
+        textViewVer.text = getString(R.string.version, build)
     }
 }
