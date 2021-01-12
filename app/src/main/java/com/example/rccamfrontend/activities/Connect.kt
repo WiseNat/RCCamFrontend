@@ -12,6 +12,7 @@ import com.example.rccamfrontend.utils.Address
 import com.example.rccamfrontend.utils.generateSnack
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_connect.*
+import java.util.*
 
 class Connect : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,21 +34,32 @@ class Connect : AppCompatActivity() {
 
             var nextActivity = false
 
-            // Address logic
-            if (address.hasEmptyIP()) {
-                generateSnack(view, "Enter an IP Address")
-            } else if (!address.hasValidIP()) {
-                generateSnack(view, "Invalid IP Address")
-            } else if (address.hasEmptyPort()) {
-                generateSnack(view, "Enter a Port number")
-            } else if (!address.hasValidPort()) {
-                generateSnack(view, "Invalid Port")
+            // IP and Port presence
+            var message = ""
+            if (address.emptyIP && address.emptyPort) {
+                message = "Enter an IP Address and Port number. "
+            } else if (address.emptyIP) {
+                message = "Enter an IP Address. "
+            } else if (address.emptyPort) {
+                message = "Enter a Port number. "
             } else {
                 nextActivity = true
             }
 
-            // Process for going to Main activity if text view inputs are valid
-            if (nextActivity){
+            // IP and Port Validity
+            if (!address.validIP && !address.validPort) {
+                message += "Invalid IP Address and Port number."
+            } else if (!address.validIP) {
+                message += "Invalid IP Address."
+            } else if (!address.validPort) {
+                message += "Invalid Port."
+            } else if (nextActivity) {
+                nextActivity = true
+            }
+
+            if (!nextActivity){  // Invalid textfield entries
+                generateSnack(view, message.capitalize(Locale.ROOT), dur = Snackbar.LENGTH_LONG)
+            } else {  // Process for going to Main activity if text view inputs are valid
                 var webviewError = false
 
                 // Webview instantiating and overriding
