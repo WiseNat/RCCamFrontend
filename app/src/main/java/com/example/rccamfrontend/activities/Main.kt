@@ -58,7 +58,7 @@ class Main : AppCompatActivity() {
             generateSnack(view, "Loaded URL: $ip", anch = bottomNavigationBar)
         }
 
-        // Setting Download Manager
+        // Download Manager
         webview.setDownloadListener { thisUrl, _, contentDisposition, mimeType, _ ->
             // Getting filename
             val filename = URLUtil.guessFileName(thisUrl, contentDisposition, mimeType)
@@ -74,11 +74,12 @@ class Main : AppCompatActivity() {
             val manager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
             manager.enqueue(request)
 
+            // Saving URI of file for share button
             val onDownloadComplete = object : BroadcastReceiver() {
                 override fun onReceive(context: Context?, intent: Intent?) {
                     val id = intent!!.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+                    // File received
                     if (id != -1L) {
-                        // File received
                         val uri = manager.getUriForDownloadedFile(id)
 
                         if (uri != null){
@@ -116,6 +117,8 @@ class Main : AppCompatActivity() {
                 )
             }
         }
+
+        // Timed Shot
         bottomNavigationBar.findViewById<View>(R.id.action_shutter).setOnLongClickListener{
             val dialog = AlertDialog.Builder(this)
             val dialogView = this.layoutInflater.inflate(
@@ -141,6 +144,7 @@ class Main : AppCompatActivity() {
             return@setOnLongClickListener true
         }
 
+        // Bottom Nav Bar
         bottomNavigationBar.setOnNavigationItemSelectedListener{ item ->
             when(item.itemId) {
                 R.id.action_face_detection -> {
