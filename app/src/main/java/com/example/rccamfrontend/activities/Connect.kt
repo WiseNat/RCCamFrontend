@@ -32,9 +32,9 @@ class Connect : AppCompatActivity() {
             // Instantiating User Inputted Address
             val address = Address(ip, port.toDoubleOrNull())
 
-            var nextActivity = false
 
             // IP and Port presence
+            var textfieldsPresent = false
             var message = ""
             if (address.emptyIP && address.emptyPort) {
                 message = "Enter an IP Address and Port number. "
@@ -43,21 +43,22 @@ class Connect : AppCompatActivity() {
             } else if (address.emptyPort) {
                 message = "Enter a Port number. "
             } else {
-                nextActivity = true
+                textfieldsPresent = true
             }
 
             // IP and Port Validity
+            var textfieldsValid = false
             if (!address.validIP && !address.validPort) {
                 message += "Invalid IP Address and Port number."
             } else if (!address.validIP) {
                 message += "Invalid IP Address."
             } else if (!address.validPort) {
                 message += "Invalid Port."
-            } else if (nextActivity) {
-                nextActivity = true
+            } else {
+                textfieldsValid = true
             }
 
-            if (!nextActivity){  // Invalid textfield entries
+            if (!textfieldsPresent || !textfieldsValid){  // Invalid textfield entries
                 generateSnack(view, message, dur = Snackbar.LENGTH_LONG)
             } else {  // Process for going to Main activity if text view inputs are valid
                 // Webview instantiating and overriding
