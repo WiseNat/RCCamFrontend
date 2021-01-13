@@ -12,6 +12,7 @@ import com.example.rccamfrontend.utils.Address
 import com.example.rccamfrontend.utils.generateSnack
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_connect.*
+import java.util.*
 
 class Connect : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,52 +34,46 @@ class Connect : AppCompatActivity() {
 
             var nextActivity = false
 
-            // Address logic
-            if (address.hasEmptyIP()) {
-                generateSnack(view, "Enter an IP Address")
-            } else if (!address.hasValidIP()) {
-                generateSnack(view, "Invalid IP Address")
-            } else if (address.hasEmptyPort()) {
-                generateSnack(view, "Enter a Port number")
-            } else if (!address.hasValidPort()) {
-                generateSnack(view, "Invalid Port")
+            // IP and Port presence
+            var message = ""
+            if (address.emptyIP && address.emptyPort) {
+                message = "Enter an IP Address and Port number. "
+            } else if (address.emptyIP) {
+                message = "Enter an IP Address. "
+            } else if (address.emptyPort) {
+                message = "Enter a Port number. "
             } else {
                 nextActivity = true
             }
 
-            // Process for going to Main activity if text view inputs are valid
-            if (nextActivity){
-                var webviewError = false
+            // IP and Port Validity
+            if (!address.validIP && !address.validPort) {
+                message += "Invalid IP Address and Port number."
+            } else if (!address.validIP) {
+                message += "Invalid IP Address."
+            } else if (!address.validPort) {
+                message += "Invalid Port."
+            } else if (nextActivity) {
+                nextActivity = true
+            }
 
+            if (!nextActivity){  // Invalid textfield entries
+                generateSnack(view, message, dur = Snackbar.LENGTH_LONG)
+            } else {  // Process for going to Main activity if text view inputs are valid
                 // Webview instantiating and overriding
                 hiddenWebview.webViewClient = object : WebViewClient() {
-                    override fun onReceivedError(
-                        view: WebView,
-                        request: WebResourceRequest,
-                        error: WebResourceError
-                    ) {
-                        generateSnack(
-                            view,
-                            error.description.toString(),
-                            dur = Snackbar.LENGTH_LONG
-                        )
-                        webviewError = true
-                    }
-
                     override fun onPageFinished(view: WebView?, url: String?) {
                         super.onPageFinished(view, url)
-                        if (!webviewError){
-                            val intent = Intent(this@Connect, Main::class.java)
-                            intent.putExtra("ip", textfieldIP.text.toString())
-                            intent.putExtra("port", textfieldPort.text.toString())
+                        val intent = Intent(this@Connect, Main::class.java)
+                        intent.putExtra("ip", textfieldIP.text.toString())
+                        intent.putExtra("port", textfieldPort.text.toString())
 
-                            startActivity(intent)
-                        }
+                        startActivity(intent)
                     }
                 }
-
-                hiddenWebview.loadUrl("http://%s:%s/".format(ip, port))
             }
+
+            hiddenWebview.loadUrl("http://%s:%s/".format(ip, port))
         }
     }
 }
