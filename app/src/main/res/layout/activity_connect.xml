@@ -8,24 +8,6 @@
     tools:context=".activities.Connect">
 
     <EditText
-        android:id="@+id/textfieldPort"
-        android:layout_width="310sp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24sp"
-        android:digits="1234567890"
-        android:ems="10"
-        android:fontFamily="@font/agencyr"
-        android:hint="@string/port_number"
-        android:imeOptions="actionGo"
-        android:importantForAutofill="no"
-        android:inputType="number"
-        android:maxLength="5"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textfieldIP" />
-
-    <EditText
         android:id="@+id/textfieldIP"
         android:layout_width="310sp"
         android:layout_height="wrap_content"
@@ -42,6 +24,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/textfieldPort"
+        android:layout_width="310sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24sp"
+        android:digits="1234567890"
+        android:ems="10"
+        android:fontFamily="@font/agencyr"
+        android:hint="@string/port_number"
+        android:imeOptions="actionDone"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:maxLength="5"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textfieldIP" />
 
     <Button
         android:id="@+id/btnConnect"
