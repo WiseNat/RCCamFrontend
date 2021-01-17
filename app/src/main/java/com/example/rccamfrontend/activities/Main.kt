@@ -133,8 +133,8 @@ class Main : AppCompatActivity() {
                 .setPositiveButton("Confirm") { _, _ ->
                     val textfieldTimeData = dialogView.secIncTextView.textView.text.toString()
 
-                    // <ip>/take_photo/float
-                    webview.loadUrl("$url/take_photo/$textfieldTimeData")
+                    // <ip>/take_photo?dur=float&w=width&h=height
+                    webview.loadUrl("$url/take_photo/dur=$textfieldTimeData&w=${webview.width}&h=${webview.height}")
 
                 }
                 .setNegativeButton("Cancel") { _, _ ->
@@ -155,7 +155,7 @@ class Main : AppCompatActivity() {
                 }
                 R.id.action_shutter -> {
                     // Setting up Download Request Manager
-                    val shutterURL = "$url/take_photo"
+                    val shutterURL = "$url/take_photo?w=${webview.width}&h=${webview.height}"
                     webview.loadUrl(shutterURL)
                 }
                 R.id.action_rotation -> {
@@ -224,6 +224,7 @@ class Main : AppCompatActivity() {
             // About clicked
             R.id.about -> {
                 with(Intent(this, About::class.java)) {
+                    generateSnack(view, "${webview.width} ${webview.height}")
                     putExtra("ip", ip)
                     putExtra("port", port)
                     startActivity(this)
