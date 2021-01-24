@@ -2,12 +2,15 @@ package com.example.rccamfrontend.views
 
 import android.content.Context
 import android.text.InputFilter
+import android.text.InputType
+import android.text.method.DigitsKeyListener
 import android.util.AttributeSet
 import android.widget.*
 import androidx.core.widget.doOnTextChanged
 import com.example.rccamfrontend.R
 import com.example.rccamfrontend.utils.incrementTextView
 import kotlinx.android.synthetic.main.textview_incrementable.view.*
+import java.util.*
 
 class IncrementableTextView(ctx: Context, attr: AttributeSet) : LinearLayout(ctx, attr) {
 
@@ -26,15 +29,21 @@ class IncrementableTextView(ctx: Context, attr: AttributeSet) : LinearLayout(ctx
         textView = textfield
         textView.hint = attrGetter.getString(R.styleable.IncrementableTextView_text)
 
+        if (attrGetter.getString(R.styleable.IncrementableTextView_inputType) == "1"){
+            textView.inputType = InputType.TYPE_CLASS_NUMBER
+            textView.inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL
+            textView.keyListener = DigitsKeyListener(Locale.getDefault(), false, true)
+        }
+
         val maxLength = attrGetter.getString(R.styleable.IncrementableTextView_maxLength)?.toIntOrNull()
         if (maxLength != null){ textView.filters = arrayOf(InputFilter.LengthFilter(maxLength)) }
 
         // Setting value limit for Text View
-        val max = attrGetter.getString(R.styleable.IncrementableTextView_maxVal)?.toIntOrNull()
-        val min = attrGetter.getString(R.styleable.IncrementableTextView_minVal)?.toIntOrNull()
+        val max = attrGetter.getString(R.styleable.IncrementableTextView_maxVal)?.toFloatOrNull()
+        val min = attrGetter.getString(R.styleable.IncrementableTextView_minVal)?.toFloatOrNull()
 
         textView.doOnTextChanged { text, _, _, _ ->
-            val textInt = text.toString().toIntOrNull()
+            val textInt = text.toString().toFloatOrNull()
             if (textInt != null) {
                 if (max != null && textInt > max) {
                     textView.setText(max.toString())
@@ -47,14 +56,14 @@ class IncrementableTextView(ctx: Context, attr: AttributeSet) : LinearLayout(ctx
 
 
         // Modifying Minus Button
-        val dec = attrGetter.getInt(R.styleable.IncrementableTextView_decVal, -1)
+        val dec = attrGetter.getFloat(R.styleable.IncrementableTextView_decVal, -1F)
         button_minus.setOnClickListener {  // Decrement btnYaw
             incrementTextView(textView, dec)
         }
 
 
         // Modifying Plus Button
-        val inc = attrGetter.getInt(R.styleable.IncrementableTextView_incVal, 1)
+        val inc = attrGetter.getFloat(R.styleable.IncrementableTextView_incVal, 1F)
         button_plus.setOnClickListener {  // Decrement btnYaw
             incrementTextView(textView, inc)
         }

@@ -18,9 +18,10 @@ fun generateSnack(view: View, text: String, dur: Int = Snackbar.LENGTH_SHORT, an
     snack.show()
 }
 
-fun incrementTextView(view: TextView, amount: Int){
+fun incrementTextView(view: TextView, amount: Float){
     if (view.text.toString() != ""){
-        val intText = Integer.parseInt(view.text.toString())
-        view.text = (intText + amount).toString()
+        // val intText = Integer.parseInt(view.text.toString())
+        val numText = view.text.toString().toFloat()
+        view.text = (numText + amount).toString()
     }
 }
