@@ -110,11 +110,14 @@ class Main : AppCompatActivity() {
                 request: WebResourceRequest,
                 error: WebResourceError
             ) {
-                generateToast(
-                    this@Main,
-                    error.description.toString(),
-                    dur = Toast.LENGTH_LONG
-                )
+                if (error.errorCode == -1){
+                    webview.reload()
+                } else {
+                    generateToast(
+                        this@Main,
+                        "${error.errorCode}# ${error.description}",
+                        dur = Toast.LENGTH_LONG)
+                }
             }
         }
 
