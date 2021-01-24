@@ -56,9 +56,9 @@ class IncrementableTextView(ctx: Context, attr: AttributeSet) : LinearLayout(ctx
 
 
         // Modifying Minus Button
-        val dec = attrGetter.getFloat(R.styleable.IncrementableTextView_decVal, -1F)
+        val dec = attrGetter.getFloat(R.styleable.IncrementableTextView_decVal, 1F)
         button_minus.setOnClickListener {  // Decrement btnYaw
-            incrementTextView(textView, dec)
+            incrementTextView(textView, dec*-1)
         }
 
 
