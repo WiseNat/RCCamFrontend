@@ -13,8 +13,11 @@
         android:layout_marginTop="30dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="5dp"
-        custom:maxVal="13"
+        custom:maxVal="10"
         custom:minVal="0"
+        custom:incVal="0.5"
+        custom:decVal="0.5"
+        custom:inputType="real"
         custom:text="Pitch" />
 
     <com.example.rccamfrontend.views.IncrementableTextView
@@ -25,8 +28,11 @@
         android:layout_marginTop="30dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="5dp"
-        custom:maxVal="13"
+        custom:maxVal="10"
         custom:minVal="0"
+        custom:incVal="0.5"
+        custom:decVal="0.5"
+        custom:inputType="real"
         custom:text="Yaw" />
 
 </LinearLayout>

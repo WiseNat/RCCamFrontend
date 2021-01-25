@@ -3,9 +3,13 @@
     <declare-styleable name="IncrementableTextView">
         <attr name="maxVal" format="integer" />
         <attr name="minVal" format="integer" />
-        <attr name="incVal" format="integer" />
-        <attr name="decVal" format="integer" />
+        <attr name="incVal" format="float" />
+        <attr name="decVal" format="float" />
         <attr name="text" format="string" />
-        <attr name="maxLength" format="integer" />
+        <attr name="maxLength" format="integer"/>
+        <attr name="inputType" format="enum" >
+            <enum name="integer" value="0"/>
+            <enum name="real" value="1"/>
+        </attr>
     </declare-styleable>
 </resources>

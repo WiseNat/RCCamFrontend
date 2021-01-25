@@ -15,6 +15,7 @@
         android:layout_marginBottom="5dp"
         custom:minVal="0"
         custom:maxLength="8"
+        custom:inputType="integer"
         custom:text="Seconds" />
 
 </LinearLayout>
