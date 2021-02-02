@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.snackbar.Snackbar
@@ -35,7 +36,6 @@ fun incrementTextView(view: TextView, amount: Float){
 fun requestPOST(ctx: Context, url: String, data: String = ""){
     // Instantiate the RequestQueue
     val queue = Volley.newRequestQueue(ctx)
-
     // String request for the provided URL with given data
     val strReq: StringRequest = object : StringRequest(Method.POST, url,
         { },
@@ -48,6 +48,7 @@ fun requestPOST(ctx: Context, url: String, data: String = ""){
         }
     }
 
-    // Add the request to the RequestQueue.
+    // Add the request to the RequestQueue
+    strReq.retryPolicy = DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
     queue.add(strReq)
 }
