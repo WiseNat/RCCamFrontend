@@ -9,6 +9,7 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment.DIRECTORY_DOWNLOADS
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -152,10 +153,8 @@ class Main : AppCompatActivity() {
         bottomNavigationBar.setOnNavigationItemSelectedListener{ item ->
             when(item.itemId) {
                 R.id.action_face_detection -> {
-                    val faceURL = "$url?o=f"
-                    webview.loadUrl(faceURL)
-
-                    generateSnack(view, "Face Detection", anch = bottomNavigationBar)
+                    val args = "w=${webview.width}&h=${webview.height}"
+                    requestPOST(this, "$url/face_detection", args)
                 }
                 R.id.action_shutter -> {
                     // Setting up Download Request Manager
