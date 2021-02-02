@@ -16,6 +16,7 @@ import android.webkit.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rccamfrontend.R
+import com.example.rccamfrontend.utils.requestPOST
 import com.example.rccamfrontend.utils.generateSnack
 import com.example.rccamfrontend.utils.generateToast
 import kotlinx.android.synthetic.main.activity_connect.*
@@ -175,7 +176,7 @@ class Main : AppCompatActivity() {
                         .setPositiveButton("Confirm") { _, _ ->
                             val pitchVal = dialogView.pitchIncTextView.textView.text
                             val yawVal = dialogView.yawIncTextView.textView.text
-                            webview.loadUrl("$url/servo?p=$pitchVal&y=$yawVal")
+                            requestPOST(this, "$url/servo", "p=$pitchVal&y=$yawVal")
                         }
                         .setNegativeButton("Cancel") { _, _ ->
                             // Do nothing - Android auto dismisses
