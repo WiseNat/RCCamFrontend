@@ -91,9 +91,6 @@ class Main : AppCompatActivity() {
                             }
                         }
 
-                        // Enable shutter button again
-                        bottomNavigationBar.menu.findItem(R.id.action_shutter).isEnabled = true
-
                     } else {
                         generateToast(this@Main, "Failed to get ID, $id")
                     }
@@ -139,9 +136,7 @@ class Main : AppCompatActivity() {
                 .setTitle("Choose Time to Wait")
                 .setView(dialogView)
                 .setPositiveButton("Confirm") { _, _ ->
-                    bottomNavigationBar.menu.findItem(R.id.action_shutter).isEnabled = false
-
-                    val textfieldTimeData = dialogView.secIncTextView.textView.text
+                    val textfieldTimeData = dialogView.secIncTextView.textView.text.toString()
 
                     // <ip>/take_photo?dur=float&w=width&h=height
                     webview.loadUrl("$url/take_photo/dur=$textfieldTimeData&w=${webview.width}&h=${webview.height}")
@@ -163,7 +158,6 @@ class Main : AppCompatActivity() {
                 }
                 R.id.action_shutter -> {
                     // Setting up Download Request Manager
-                    bottomNavigationBar.menu.findItem(R.id.action_shutter).isEnabled = false
                     val shutterURL = "$url/take_photo?w=${webview.width}&h=${webview.height}"
                     webview.loadUrl(shutterURL)
                 }
