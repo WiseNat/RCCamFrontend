@@ -9,6 +9,7 @@ import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment.DIRECTORY_DOWNLOADS
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,6 +17,7 @@ import android.webkit.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rccamfrontend.R
+import com.example.rccamfrontend.utils.requestPOST
 import com.example.rccamfrontend.utils.generateSnack
 import com.example.rccamfrontend.utils.generateToast
 import kotlinx.android.synthetic.main.activity_connect.*
@@ -151,10 +153,8 @@ class Main : AppCompatActivity() {
         bottomNavigationBar.setOnNavigationItemSelectedListener{ item ->
             when(item.itemId) {
                 R.id.action_face_detection -> {
-                    val faceURL = "$url?o=f"
-                    webview.loadUrl(faceURL)
-
-                    generateSnack(view, "Face Detection", anch = bottomNavigationBar)
+                    val args = "w=${webview.width}&h=${webview.height}"
+                    requestPOST(this, "$url/face_detection", args)
                 }
                 R.id.action_shutter -> {
                     // Setting up Download Request Manager
@@ -175,7 +175,7 @@ class Main : AppCompatActivity() {
                         .setPositiveButton("Confirm") { _, _ ->
                             val pitchVal = dialogView.pitchIncTextView.textView.text
                             val yawVal = dialogView.yawIncTextView.textView.text
-                            webview.loadUrl("$url/servo?p=$pitchVal&y=$yawVal")
+                            requestPOST(this, "$url/servo", "p=$pitchVal&y=$yawVal")
                         }
                         .setNegativeButton("Cancel") { _, _ ->
                             // Do nothing - Android auto dismisses
