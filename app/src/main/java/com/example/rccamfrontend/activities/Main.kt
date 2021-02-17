@@ -136,10 +136,10 @@ class Main : AppCompatActivity() {
                 .setTitle("Choose Time to Wait")
                 .setView(dialogView)
                 .setPositiveButton("Confirm") { _, _ ->
-                    val textfieldTimeData = dialogView.secIncTextView.textView.text.toString()
+                    val textfieldTimeData = dialogView.secIncTextView.textView.text
 
                     // <ip>/take_photo?dur=float&w=width&h=height
-                    webview.loadUrl("$url/take_photo/dur=$textfieldTimeData&w=${webview.width}&h=${webview.height}")
+                    webview.loadUrl("$url/take_photo?dur=$textfieldTimeData&w=${webview.width}&h=${webview.height}")
 
                 }
                 .setNegativeButton("Cancel") { _, _ ->
